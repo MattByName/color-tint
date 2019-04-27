@@ -3,6 +3,21 @@ const St = imports.gi.St;
 const Main = imports.ui.main;
 const Tweener = imports.ui.tweener;
 
+const Lang = imports.lang;
+const PopupMenu = imports.ui.popupMenu;
+const PanelMenu = imports.ui.panelMenu;
+
+let tinter = null;
+
+const MenuButton = new Lang.Class({
+    Name: "MenuButton",
+    Extends: PanelMenu.Button,
+    _init: function () {},
+    createButton: function () {},
+    deleteButton: function () {},
+
+})
+
 const ColorTinter = new Lang.Class({
     Name: "ColorTinter",
 
@@ -19,10 +34,6 @@ const ColorTinter = new Lang.Class({
     // Load Color
 
     // Save Color
-
-    // Create Menu
-
-    // Delete Menu
 
     // enable
     enable: function()
