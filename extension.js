@@ -11,6 +11,31 @@ const PanelMenu = imports.ui.panelMenu;
 let tinter = null;
 let menu = null;
 
+const ColorTinter = new Lang.Class({
+    Name: "ColorTinter",
+
+    // Create Tint Overlay
+
+    // Delete Tint Overlay
+
+    // Set color of Overlay
+
+    // Hide Overlay
+    hide: function() {},
+    // Show Overlay
+    show: function() {},
+    // Load Color
+
+    // Save Color
+
+    // enable
+    enable: function()
+    {},
+
+    // disable
+    disable : function() {},
+})
+
 const MenuButton = new Lang.Class({
     Name: "MenuButton",
     Extends: PanelMenu.Button,
@@ -32,6 +57,39 @@ const MenuButton = new Lang.Class({
         // It will be showed in the Top Panel
         this.actor.add_child(box);
 
+        let popupMenuExpander = new PopupMenu.PopupSubMenuMenuItem('PopupSubMenuMenuItem');
+
+        // This is an example of PopupMenuItem, a menu item. We will use this to add as a submenu
+        let submenu = new PopupMenu.PopupMenuItem('PopupMenuItem');
+
+        // A new label
+        let label = new St.Label({text:'Item 1'});
+
+        // Add the label and submenu to the menu expander
+        popupMenuExpander.menu.addMenuItem(submenu);
+        popupMenuExpander.menu.box.add(label);
+
+        // Other standard menu items
+
+        let offswitch = new PopupMenu.PopupSwitchMenuItem('PopupSwitchMenuItem');
+
+
+        // Assemble all menu items
+
+        // This is a menu separator
+        this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+        this.menu.addMenuItem(offswitch);
+        this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+
+        offswitch.connect('toggled', Lang.bind(this, function(object, value){
+            // We will just change the text content of the label
+            if(value) {
+                ColorTinter.show()
+            } else {
+                ColorTinter.hide()
+            }
+        }));
+
 
     },
 
@@ -39,30 +97,7 @@ const MenuButton = new Lang.Class({
 
 })
 
-const ColorTinter = new Lang.Class({
-    Name: "ColorTinter",
 
-    // Create Tint Overlay
-
-    // Delete Tint Overlay
-
-    // Set color of Overlay
-
-    // Hide Overlay
-
-    // Show Overlay
-
-    // Load Color
-
-    // Save Color
-
-    // enable
-    enable: function()
-    {},
-
-    // disable
-    disable : function() {},
-})
 
 function init() {
 
