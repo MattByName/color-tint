@@ -72,7 +72,9 @@ const ColorTinter = new Lang.Class({
     },
 
     // disable
-    disable : function() {},
+    disable : function() {
+        overlay = null;
+    },
 })
 
 const MenuButton = new Lang.Class({
