@@ -86,14 +86,11 @@ const MenuButton = new Lang.Class({
     _init: function () {
         this.parent(1, 'ColorTintMenu', false);
         let box = new St.BoxLayout();
-        let icon =  new St.Icon({ icon_name: 'system-search-symbolic', style_class: 'system-status-icon'});
-        let toplabel = new St.Label({ text: ' Menu ',
-            y_expand: true,
-            y_align: Clutter.ActorAlign.CENTER });
+        let icon =  new St.Icon({ icon_name: 'applications-graphics-symbolic', style_class: 'system-status-icon'});
 
         // We add the icon, the label and a arrow icon to the box
         box.add(icon);
-        box.add(toplabel);
+
         box.add(PopupMenu.arrowIcon(St.Side.BOTTOM));
 
         // We add the box to the button
@@ -114,7 +111,7 @@ const MenuButton = new Lang.Class({
 
         // Other standard menu items
 
-        let offswitch = new PopupMenu.PopupSwitchMenuItem('PopupSwitchMenuItem');
+        let offswitch = new PopupMenu.PopupSwitchMenuItem('Tint');
 
 
         // Assemble all menu items
@@ -141,25 +138,27 @@ const MenuButton = new Lang.Class({
         this._alphaSlider = new Slider.Slider(0);
 
 
-        let _redLabel = new St.Label({text: "Red  "});
+        let _redLabel = new St.Label({text: "R"});
         this._redSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._redSliderContainer.actor.add(_redLabel);
         this._redSliderContainer.actor.add(this._redSlider.actor, {expand: true});
         this.menu.addMenuItem(this._redSliderContainer);
 
 
-        let _greenLabel = new St.Label({text: "Green"});
+        let _greenLabel = new St.Label({text: "G"});
         this._greenSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._greenSliderContainer.actor.add(_greenLabel);
         this._greenSliderContainer.actor.add(this._greenSlider.actor, {expand: true});
         this.menu.addMenuItem(this._greenSliderContainer);
 
 
-        let _blueLabel = new St.Label({text: "Blue "});
+        let _blueLabel = new St.Label({text: "B"});
         this._blueSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._blueSliderContainer.actor.add(_blueLabel);
         this._blueSliderContainer.actor.add(this._blueSlider.actor, {expand: true});
         this.menu.addMenuItem(this._blueSliderContainer);
+
+        this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
 
         let _alphaLabel = new St.Label({text: "Alpha"});
         this._alphaSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
