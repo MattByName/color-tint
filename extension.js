@@ -10,27 +10,66 @@ const PanelMenu = imports.ui.panelMenu;
 
 let tinter = null;
 let menu = null;
+let overlay = null;
+
+var overlay_color = {
+    red: 20,
+    green: 20,
+    blue: 20,
+    alpha: 80,
+
+};
+
 
 const ColorTinter = new Lang.Class({
     Name: "ColorTinter",
 
+
+
     // Create Tint Overlay
 
-    // Delete Tint Overlay
+    createOverlay: function() {
+        let monitor = Main.layoutManager.primaryMonitor;
+        overlay = new St.Bin({ reactive: false, x_fill: true, y_fill: true });
+        overlay.set_size(monitor.width, monitor.height);
+        overlay.opacity = 255;
+        overlay.set_position(monitor.x, monitor.y);
+        // Arbitrary z position above everything else
+        overlay.set_z_position(650);
+        this.setOverlayColor();
 
-    // Set color of Overlay
+    },
 
+    // Update color of Overlay
+    setOverlayColor: function() {
+        var color = new Clutter.Color(
+            {
+                red: overlay_color["red"],
+                green: overlay_color["green"],
+                blue: overlay_color["blue"],
+                alpha: overlay_color["alpha"]
+            });
+        overlay.set_background_color(color);
+
+    },
     // Hide Overlay
-    hide: function() {},
+    hide: function() {
+        Main.notify('Hide Overlay');
+        Main.uiGroup.remove_actor(overlay);
+    },
     // Show Overlay
-    show: function() {},
+    show: function() {
+        Main.uiGroup.add_actor(overlay);
+    },
     // Load Color
 
     // Save Color
 
     // enable
     enable: function()
-    {},
+    {
+        this.createOverlay();
+    },
 
     // disable
     disable : function() {},
@@ -84,9 +123,9 @@ const MenuButton = new Lang.Class({
         offswitch.connect('toggled', Lang.bind(this, function(object, value){
             // We will just change the text content of the label
             if(value) {
-                ColorTinter.show()
+                tinter.show()
             } else {
-                ColorTinter.hide()
+                tinter.hide()
             }
         }));
 
