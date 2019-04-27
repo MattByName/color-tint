@@ -2,7 +2,7 @@
 const St = imports.gi.St;
 const Clutter = imports.gi.Clutter;
 const Main = imports.ui.main;
-const Tweener = imports.ui.tweener;
+const Gio = imports.gi.Gio;
 
 const Lang = imports.lang;
 const PopupMenu = imports.ui.popupMenu;
@@ -20,6 +20,16 @@ let overlay_color = {
 
 };
 
+const ExtensionSystem = imports.ui.extensionSystem;
+
+const ShellVersion = imports.misc.config.PACKAGE_VERSION.split('.');
+
+let ExtensionPath;
+if (ShellVersion[1] === 2) {
+    ExtensionPath = ExtensionSystem.extensionMeta['colortint@matt.serverus.co.uk'].path;
+} else {
+    ExtensionPath = imports.misc.extensionUtils.getCurrentExtension().path;
+}
 
 const ColorTinter = new Lang.Class({
     Name: "ColorTinter",
@@ -36,7 +46,9 @@ const ColorTinter = new Lang.Class({
         overlay.set_position(monitor.x, monitor.y);
         // Arbitrary z position above everything else
         overlay.set_z_position(650);
+
         this.setOverlayColor();
+
 
     },
 
@@ -50,6 +62,7 @@ const ColorTinter = new Lang.Class({
                 alpha: overlay_color["alpha"]
             });
         overlay.set_background_color(color);
+        this.saveColor();
 
     },
     // Hide Overlay
@@ -62,13 +75,30 @@ const ColorTinter = new Lang.Class({
         Main.uiGroup.add_actor(overlay);
     },
     // Load Color
+    loadColor: function() {
+        // Load last from json
+
+        this._file = Gio.file_new_for_path(ExtensionPath + '/settings.json');
+        if(this._file.query_exists(null)) {
+            [flag, data] = this._file.load_contents(null);
+
+            if(flag){
+                overlay_color = JSON.parse(data);
+            }
+        }
+    },
 
     // Save Color
-
+    saveColor: function() {
+        this._file = Gio.file_new_for_path(ExtensionPath + '/settings.json');
+        this._file.replace_contents(JSON.stringify(overlay_color), null, false, 0, null);
+    },
     // enable
     enable: function()
     {
+        this.loadColor();
         this.createOverlay();
+
     },
 
     // disable
