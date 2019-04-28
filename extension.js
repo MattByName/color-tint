@@ -1,4 +1,3 @@
-
 const St = imports.gi.St;
 const Clutter = imports.gi.Clutter;
 const Main = imports.ui.main;
@@ -35,12 +34,11 @@ const ColorTinter = new Lang.Class({
     Name: "ColorTinter",
 
 
-
     // Create Tint Overlay
 
-    createOverlay: function() {
+    createOverlay: function () {
         let monitor = Main.layoutManager.primaryMonitor;
-        overlay = new St.Bin({ reactive: false, x_fill: true, y_fill: true });
+        overlay = new St.Bin({reactive: false, x_fill: true, y_fill: true});
         overlay.set_size(monitor.width, monitor.height);
         overlay.opacity = 255;
         overlay.set_position(monitor.x, monitor.y);
@@ -53,7 +51,7 @@ const ColorTinter = new Lang.Class({
     },
 
     // Update color of Overlay
-    setOverlayColor: function() {
+    setOverlayColor: function () {
         var color = new Clutter.Color(
             {
                 red: overlay_color["red"],
@@ -66,44 +64,46 @@ const ColorTinter = new Lang.Class({
 
     },
     // Hide Overlay
-    hide: function() {
+    hide: function () {
 
         Main.uiGroup.remove_actor(overlay);
     },
     // Show Overlay
-    show: function() {
+    show: function () {
         Main.uiGroup.add_actor(overlay);
     },
     // Load Color
-    loadColor: function() {
+    loadColor: function () {
         // Load last from json
 
         this._file = Gio.file_new_for_path(ExtensionPath + '/settings.json');
-        if(this._file.query_exists(null)) {
+        if (this._file.query_exists(null)) {
             [flag, data] = this._file.load_contents(null);
 
-            if(flag){
+            if (flag) {
                 overlay_color = JSON.parse(data);
             }
         }
     },
 
     // Save Color
-    saveColor: function() {
+    saveColor: function () {
         this._file = Gio.file_new_for_path(ExtensionPath + '/settings.json');
         this._file.replace_contents(JSON.stringify(overlay_color), null, false, 0, null);
     },
     // enable
-    enable: function()
-    {
+    enable: function () {
         this.loadColor();
         this.createOverlay();
 
     },
 
     // disable
-    disable : function() {
+    disable: function () {
+        Main.uiGroup.remove_actor(overlay);
+        overlay.destroy();
         overlay = null;
+
     },
 })
 
@@ -116,7 +116,7 @@ const MenuButton = new Lang.Class({
     _init: function () {
         this.parent(1, 'ColorTintMenu', false);
         let box = new St.BoxLayout();
-        let icon =  new St.Icon({ icon_name: 'applications-graphics-symbolic', style_class: 'system-status-icon'});
+        let icon = new St.Icon({icon_name: 'applications-graphics-symbolic', style_class: 'system-status-icon'});
 
         // We add the icon, the label and a arrow icon to the box
         box.add(icon);
@@ -133,7 +133,7 @@ const MenuButton = new Lang.Class({
         let submenu = new PopupMenu.PopupMenuItem('PopupMenuItem');
 
         // A new label
-        let label = new St.Label({text:'Item 1'});
+        let label = new St.Label({text: 'Item 1'});
 
         // Add the label and submenu to the menu expander
         popupMenuExpander.menu.addMenuItem(submenu);
@@ -151,15 +151,14 @@ const MenuButton = new Lang.Class({
         this.menu.addMenuItem(offswitch);
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
 
-        offswitch.connect('toggled', Lang.bind(this, function(object, value){
+        offswitch.connect('toggled', Lang.bind(this, function (object, value) {
             // We will just change the text content of the label
-            if(value) {
+            if (value) {
                 tinter.show()
             } else {
                 tinter.hide()
             }
         }));
-
 
 
         this._redSlider = new Slider.Slider(0);
@@ -196,10 +195,10 @@ const MenuButton = new Lang.Class({
         this._alphaSliderContainer.actor.add(this._alphaSlider.actor, {expand: true});
         this.menu.addMenuItem(this._alphaSliderContainer);
 
-        this._redSlider.connect('value-changed', Lang.bind(this,this._setColors));
-        this._blueSlider.connect('value-changed', Lang.bind(this,this._setColors));
-        this._greenSlider.connect('value-changed', Lang.bind(this,this._setColors));
-        this._alphaSlider.connect('value-changed', Lang.bind(this,this._setColors));
+        this._redSlider.connect('value-changed', Lang.bind(this, this._setColors));
+        this._blueSlider.connect('value-changed', Lang.bind(this, this._setColors));
+        this._greenSlider.connect('value-changed', Lang.bind(this, this._setColors));
+        this._alphaSlider.connect('value-changed', Lang.bind(this, this._setColors));
 
         this._getColors();
 
@@ -238,6 +237,7 @@ function enable() {
 function disable() {
     tinter.disable();
     tinter = null;
+    menu.destroy();
     menu = null;
 
 }
