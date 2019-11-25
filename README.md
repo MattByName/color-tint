@@ -1,7 +1,5 @@
-# ColorTint v1.0.0
+# ColorTint
 ## About
- 
-
 ## Features
 * Set any colour using RGB sliders
 * Custom translucency through alpha slider
