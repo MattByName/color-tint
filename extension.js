@@ -195,20 +195,20 @@ const MenuButton = new Lang.Class({
         this._alphaSliderContainer.actor.add(this._alphaSlider.actor, {expand: true});
         this.menu.addMenuItem(this._alphaSliderContainer);
 
-        this._redSlider.connect('value-changed', Lang.bind(this, this._setColors));
-        this._blueSlider.connect('value-changed', Lang.bind(this, this._setColors));
-        this._greenSlider.connect('value-changed', Lang.bind(this, this._setColors));
-        this._alphaSlider.connect('value-changed', Lang.bind(this, this._setColors));
+        this._redSlider.connect('notify::value', Lang.bind(this, this._setColors));
+        this._blueSlider.connect('notify::value', Lang.bind(this, this._setColors));
+        this._greenSlider.connect('notify::value', Lang.bind(this, this._setColors));
+        this._alphaSlider.connect('notify::value', Lang.bind(this, this._setColors));
 
         this._getColors();
 
 
     },
     _getColors: function () {
-        this._redSlider.setValue(overlay_color["red"] / 255);
-        this._greenSlider.setValue(overlay_color["green"] / 255);
-        this._blueSlider.setValue(overlay_color["blue"] / 255);
-        this._alphaSlider.setValue(overlay_color["alpha"] / 255);
+        this._redSlider.value = overlay_color["red"] / 255;
+        this._greenSlider.value = overlay_color["green"] / 255;
+        this._blueSlider.value = overlay_color["blue"] / 255;
+        this._alphaSlider.value = overlay_color["alpha"] / 255;
     },
     _setColors: function () {
         overlay_color["red"] = 255 * this._redSlider._getCurrentValue();
