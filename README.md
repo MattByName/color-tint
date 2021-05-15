@@ -5,6 +5,8 @@
 * Custom translucency through alpha slider
 * ColorTint remembers your chosen color, automatically saving it when you change it, and loading on launch **
 * The tint is off by default. Click the paintbrush icon and toggle "Tint" to enable.
+* Supports multiple monitor setups
+* Supports Gnome 40
 
 ## Contributing
 Please do contribute if you want to change something or help out with one of the issues. I'm not very familiar with JavaScript, and only made this because I needed it for myself.
