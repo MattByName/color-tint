@@ -20,7 +20,8 @@ let overlay_color = {
 };
 
 const ExtensionSystem = imports.ui.extensionSystem;
-
+const ExtensionUtils = imports.misc.extensionUtils;
+const Me = ExtensionUtils.getCurrentExtension();
 const ShellVersion = imports.misc.config.PACKAGE_VERSION.split('.');
 
 let ExtensionPath;
@@ -37,21 +38,31 @@ const ColorTinter = new Lang.Class({
     // Create Tint Overlay
 
     createOverlay: function () {
+
+        /*
+        Set the overlay to 100x the primary monitor's width and height. Set the overlay x and y to 0.
+        This is hacky, but should cover most multi-setups.
+        What should be done, is to iterate over all monitors, and create a seperate overlay for each that fills each
+        according to its dimensions. If anyone wants to refactor this in that way, please do.
+         */
+
         let monitor = Main.layoutManager.primaryMonitor;
-        overlay = new St.Bin({reactive: false, x_fill: true, y_fill: true});
-        overlay.set_size(monitor.width, monitor.height);
+        overlay = new St.Bin({reactive: false});
+        overlay.set_size(monitor.width *100, monitor.height*100);
         overlay.opacity = 255;
-        overlay.set_position(monitor.x, monitor.y);
+        overlay.set_position(0, 0);
         // Arbitrary z position above everything else
         overlay.set_z_position(650);
 
         this.setOverlayColor();
 
 
+
     },
 
     // Update color of Overlay
     setOverlayColor: function () {
+
         var color = new Clutter.Color(
             {
                 red: overlay_color["red"],
@@ -70,12 +81,12 @@ const ColorTinter = new Lang.Class({
     },
     // Show Overlay
     show: function () {
-        Main.uiGroup.add_actor(overlay);
+        Main.uiGroup.add_child(overlay);
     },
     // Load Color
     loadColor: function () {
         // Load last from json
-
+        log('CT - Loading Color')
         this._file = Gio.file_new_for_path(ExtensionPath + '/settings.json');
         if (this._file.query_exists(null)) {
             [flag, data] = this._file.load_contents(null);
@@ -83,6 +94,8 @@ const ColorTinter = new Lang.Class({
             if (flag) {
                 overlay_color = JSON.parse(data);
             }
+            log(data)
+
         }
     },
 
@@ -92,14 +105,15 @@ const ColorTinter = new Lang.Class({
         this._file.replace_contents(JSON.stringify(overlay_color), null, false, 0, null);
     },
     // enable
-    enable: function () {
+    start_up: function () {
+        log('CT - enable tinter')
         this.loadColor();
         this.createOverlay();
 
     },
 
     // disable
-    disable: function () {
+    stop_now: function () {
         Main.uiGroup.remove_actor(overlay);
         overlay.destroy();
         overlay = null;
@@ -141,7 +155,7 @@ const MenuButton = new Lang.Class({
 
         // Other standard menu items
 
-        let offswitch = new PopupMenu.PopupSwitchMenuItem('Tint');
+        let offswitch = new PopupMenu.PopupSwitchMenuItem('Tint', false);
 
 
         // Assemble all menu items
@@ -169,30 +183,30 @@ const MenuButton = new Lang.Class({
 
         let _redLabel = new St.Label({text: "R"});
         this._redSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
-        this._redSliderContainer.actor.add(_redLabel);
-        this._redSliderContainer.actor.add(this._redSlider.actor, {expand: true});
+        this._redSliderContainer.add_child(_redLabel);
+        this._redSliderContainer.add_child(this._redSlider.actor);
         this.menu.addMenuItem(this._redSliderContainer);
 
 
         let _greenLabel = new St.Label({text: "G"});
         this._greenSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
-        this._greenSliderContainer.actor.add(_greenLabel);
-        this._greenSliderContainer.actor.add(this._greenSlider.actor, {expand: true});
+        this._greenSliderContainer.add_child(_greenLabel);
+        this._greenSliderContainer.add_child(this._greenSlider.actor);
         this.menu.addMenuItem(this._greenSliderContainer);
 
 
         let _blueLabel = new St.Label({text: "B"});
         this._blueSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
-        this._blueSliderContainer.actor.add(_blueLabel);
-        this._blueSliderContainer.actor.add(this._blueSlider.actor, {expand: true});
+        this._blueSliderContainer.add_child(_blueLabel);
+        this._blueSliderContainer.add_child(this._blueSlider.actor);
         this.menu.addMenuItem(this._blueSliderContainer);
 
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
 
         let _alphaLabel = new St.Label({text: "Alpha"});
         this._alphaSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
-        this._alphaSliderContainer.actor.add(_alphaLabel);
-        this._alphaSliderContainer.actor.add(this._alphaSlider.actor, {expand: true});
+        this._alphaSliderContainer.add_child(_alphaLabel);
+        this._alphaSliderContainer.add_child(this._alphaSlider.actor);
         this.menu.addMenuItem(this._alphaSliderContainer);
 
         this._redSlider.connect('notify::value', Lang.bind(this, this._setColors));
@@ -205,12 +219,19 @@ const MenuButton = new Lang.Class({
 
     },
     _getColors: function () {
-        this._redSlider.value = overlay_color["red"] / 255;
-        this._greenSlider.value = overlay_color["green"] / 255;
-        this._blueSlider.value = overlay_color["blue"] / 255;
-        this._alphaSlider.value = overlay_color["alpha"] / 255;
+        log('CT - setting panel sliders')
+        log(overlay_color['red'] / 255)
+
+        this._redSlider._setCurrentValue(this._redSlider, overlay_color["red"] / 255)
+        this._blueSlider._setCurrentValue(this._blueSlider, overlay_color["blue"] / 255)
+        this._greenSlider._setCurrentValue(this._greenSlider, overlay_color["green"] / 255)
+        this._alphaSlider._setCurrentValue(this._alphaSlider, overlay_color["alpha"] / 255)
+
+
+
     },
     _setColors: function () {
+        log(this._redSlider._getCurrentValue())
         overlay_color["red"] = 255 * this._redSlider._getCurrentValue();
         overlay_color["green"] = 255 * this._greenSlider._getCurrentValue();
         overlay_color["blue"] = 255 * this._blueSlider._getCurrentValue();
@@ -221,23 +242,34 @@ const MenuButton = new Lang.Class({
 
 })
 
-
-function init() {
+class Extension {
+constructor() {
 
 }
 
-function enable() {
+enable() {
+    log(`CT - enabling ${Me.metadata.name}`);
     tinter = new ColorTinter();
-    tinter.enable();
+    tinter.start_up();
     menu = new MenuButton();
-    Main.panel.addToStatusArea("ChatStatus", menu, 0, "right");
+    Main.panel.addToStatusArea("Tint", menu, 0, "right");
 
 }
 
-function disable() {
-    tinter.disable();
+disable() {
+    tinter.stop_now();
     tinter = null;
     menu.destroy();
     menu = null;
+    log(`CT - disabling ${Me.metadata.name}`);
 
 }
+
+}
+
+function init() {
+    log(`CT - initializing ${Me.metadata.name}`);
+
+    return new Extension();
+}
+
