@@ -184,21 +184,21 @@ const MenuButton = new Lang.Class({
         let _redLabel = new St.Label({text: "R"});
         this._redSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._redSliderContainer.add_child(_redLabel);
-        this._redSliderContainer.add_child(this._redSlider.actor);
+        this._redSliderContainer.add_child(this._redSlider);
         this.menu.addMenuItem(this._redSliderContainer);
 
 
         let _greenLabel = new St.Label({text: "G"});
         this._greenSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._greenSliderContainer.add_child(_greenLabel);
-        this._greenSliderContainer.add_child(this._greenSlider.actor);
+        this._greenSliderContainer.add_child(this._greenSlider);
         this.menu.addMenuItem(this._greenSliderContainer);
 
 
         let _blueLabel = new St.Label({text: "B"});
         this._blueSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._blueSliderContainer.add_child(_blueLabel);
-        this._blueSliderContainer.add_child(this._blueSlider.actor);
+        this._blueSliderContainer.add_child(this._blueSlider);
         this.menu.addMenuItem(this._blueSliderContainer);
 
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
@@ -206,7 +206,7 @@ const MenuButton = new Lang.Class({
         let _alphaLabel = new St.Label({text: "Alpha"});
         this._alphaSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._alphaSliderContainer.add_child(_alphaLabel);
-        this._alphaSliderContainer.add_child(this._alphaSlider.actor);
+        this._alphaSliderContainer.add_child(this._alphaSlider);
         this.menu.addMenuItem(this._alphaSliderContainer);
 
         this._redSlider.connect('notify::value', Lang.bind(this, this._setColors));

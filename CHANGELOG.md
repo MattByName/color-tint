@@ -1,9 +1,11 @@
 # Color Tint Changelog
 
 ## 2.0.1
-
-Usage of object.actor is deprecated for MenuButton
-
+### Fixes
+Responded to Gnome Extension moderator feedback:
+- Resolveed warning: Usage of object.actor is deprecated for MenuButton
+- Resolved warning: Usage of object.actor is deprecated for Slider
+- Resolved error: Disabling extension Error:  Attempting to remove actor of type 'StBin' from group of class 'Gjs_ui_layout_UiActor', but the container is not the actor's parent.
 ## 2.0.0
 
 ### Added
