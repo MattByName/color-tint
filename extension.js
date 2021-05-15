@@ -86,7 +86,7 @@ const ColorTinter = new Lang.Class({
     // Load Color
     loadColor: function () {
         // Load last from json
-        log('CT - Loading Color')
+
         this._file = Gio.file_new_for_path(ExtensionPath + '/settings.json');
         if (this._file.query_exists(null)) {
             [flag, data] = this._file.load_contents(null);
@@ -94,7 +94,7 @@ const ColorTinter = new Lang.Class({
             if (flag) {
                 overlay_color = JSON.parse(data);
             }
-            log(data)
+
 
         }
     },
@@ -106,7 +106,7 @@ const ColorTinter = new Lang.Class({
     },
     // enable
     start_up: function () {
-        log('CT - enable tinter')
+
         this.loadColor();
         this.createOverlay();
 
@@ -139,7 +139,7 @@ const MenuButton = new Lang.Class({
 
         // We add the box to the button
         // It will be showed in the Top Panel
-        this.actor.add_child(box);
+        this.add_child(box);
 
         let popupMenuExpander = new PopupMenu.PopupSubMenuMenuItem('PopupSubMenuMenuItem');
 
@@ -219,8 +219,7 @@ const MenuButton = new Lang.Class({
 
     },
     _getColors: function () {
-        log('CT - setting panel sliders')
-        log(overlay_color['red'] / 255)
+
 
         this._redSlider._setCurrentValue(this._redSlider, overlay_color["red"] / 255)
         this._blueSlider._setCurrentValue(this._blueSlider, overlay_color["blue"] / 255)
@@ -231,7 +230,7 @@ const MenuButton = new Lang.Class({
 
     },
     _setColors: function () {
-        log(this._redSlider._getCurrentValue())
+
         overlay_color["red"] = 255 * this._redSlider._getCurrentValue();
         overlay_color["green"] = 255 * this._greenSlider._getCurrentValue();
         overlay_color["blue"] = 255 * this._blueSlider._getCurrentValue();
@@ -242,13 +241,13 @@ const MenuButton = new Lang.Class({
 
 })
 
-class Extension {
-constructor() {
+
+function constructor() {
 
 }
 
-enable() {
-    log(`CT - enabling ${Me.metadata.name}`);
+function enable() {
+
     tinter = new ColorTinter();
     tinter.start_up();
     menu = new MenuButton();
@@ -256,20 +255,18 @@ enable() {
 
 }
 
-disable() {
+function disable() {
     tinter.stop_now();
     tinter = null;
     menu.destroy();
     menu = null;
-    log(`CT - disabling ${Me.metadata.name}`);
 
 }
 
-}
+
 
 function init() {
-    log(`CT - initializing ${Me.metadata.name}`);
 
-    return new Extension();
+
 }
 

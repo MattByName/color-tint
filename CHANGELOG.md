@@ -1,5 +1,9 @@
 # Color Tint Changelog
 
+## 2.0.1
+
+Usage of object.actor is deprecated for MenuButton
+
 ## 2.0.0
 
 ### Added
