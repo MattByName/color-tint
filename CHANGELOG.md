@@ -1,10 +1,27 @@
 # Color Tint Changelog
 
+## 2.0.0
+
+### Added
+- Gnome 40 Support
+- Multiple monitor support
+
+### Fixes
+- Now loads in Gnome 40
+- Fixed various deprecated calls
+- Colors now loading after bug caused by 'Slider.value = ' no longer working. Switched to 'Slider._setCurrentValue'
+- Fixed problem where the Tint switch was defaulting to on when it should be to off
+- Refactored constructor to match latest Gnome extension documentation
+
 ## 1.1.1
+
+### Removed
+- Removed version number from Readme (redundant)
 
 ### Fixes
 - Updated metadata to say 3.34.1
-- Removed version number from Readme (redundant)
+  
+
 
 ## 1.1.0
 
