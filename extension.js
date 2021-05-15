@@ -20,7 +20,8 @@ let overlay_color = {
 };
 
 const ExtensionSystem = imports.ui.extensionSystem;
-
+const ExtensionUtils = imports.misc.extensionUtils;
+const Me = ExtensionUtils.getCurrentExtension();
 const ShellVersion = imports.misc.config.PACKAGE_VERSION.split('.');
 
 let ExtensionPath;
@@ -48,10 +49,12 @@ const ColorTinter = new Lang.Class({
         this.setOverlayColor();
 
 
+
     },
 
     // Update color of Overlay
     setOverlayColor: function () {
+
         var color = new Clutter.Color(
             {
                 red: overlay_color["red"],
@@ -75,7 +78,7 @@ const ColorTinter = new Lang.Class({
     // Load Color
     loadColor: function () {
         // Load last from json
-
+        log('CT - Loading Color')
         this._file = Gio.file_new_for_path(ExtensionPath + '/settings.json');
         if (this._file.query_exists(null)) {
             [flag, data] = this._file.load_contents(null);
@@ -83,6 +86,8 @@ const ColorTinter = new Lang.Class({
             if (flag) {
                 overlay_color = JSON.parse(data);
             }
+            log(data)
+
         }
     },
 
@@ -92,14 +97,15 @@ const ColorTinter = new Lang.Class({
         this._file.replace_contents(JSON.stringify(overlay_color), null, false, 0, null);
     },
     // enable
-    enable: function () {
+    start_up: function () {
+        log('CT - enable tinter')
         this.loadColor();
         this.createOverlay();
 
     },
 
     // disable
-    disable: function () {
+    stop_now: function () {
         Main.uiGroup.remove_actor(overlay);
         overlay.destroy();
         overlay = null;
@@ -141,7 +147,7 @@ const MenuButton = new Lang.Class({
 
         // Other standard menu items
 
-        let offswitch = new PopupMenu.PopupSwitchMenuItem('Tint', true);
+        let offswitch = new PopupMenu.PopupSwitchMenuItem('Tint', false);
 
 
         // Assemble all menu items
@@ -205,12 +211,23 @@ const MenuButton = new Lang.Class({
 
     },
     _getColors: function () {
-        this._redSlider.value = overlay_color["red"] / 255;
-        this._greenSlider.value = overlay_color["green"] / 255;
-        this._blueSlider.value = overlay_color["blue"] / 255;
-        this._alphaSlider.value = overlay_color["alpha"] / 255;
+        log('CT - setting panel sliders')
+        log(overlay_color['red'] / 255)
+
+        //this._redSlider.value = overlay_color["red"] / 255;
+        //this._greenSlider.value = overlay_color["green"] / 255;
+        //this._blueSlider.value = overlay_color["blue"] / 255;
+        //this._alphaSlider.value = overlay_color["alpha"] / 255;
+        this._redSlider._setCurrentValue(this._redSlider, overlay_color["red"] / 255)
+        this._blueSlider._setCurrentValue(this._blueSlider, overlay_color["blue"] / 255)
+        this._greenSlider._setCurrentValue(this._greenSlider, overlay_color["green"] / 255)
+        this._alphaSlider._setCurrentValue(this._alphaSlider, overlay_color["alpha"] / 255)
+
+
+
     },
     _setColors: function () {
+        log(this._redSlider._getCurrentValue())
         overlay_color["red"] = 255 * this._redSlider._getCurrentValue();
         overlay_color["green"] = 255 * this._greenSlider._getCurrentValue();
         overlay_color["blue"] = 255 * this._blueSlider._getCurrentValue();
@@ -221,23 +238,34 @@ const MenuButton = new Lang.Class({
 
 })
 
-
-function init() {
+class Extension {
+constructor() {
 
 }
 
-function enable() {
+enable() {
+    log(`CT - enabling ${Me.metadata.name}`);
     tinter = new ColorTinter();
-    tinter.enable();
+    tinter.start_up();
     menu = new MenuButton();
     Main.panel.addToStatusArea("Tint", menu, 0, "right");
 
 }
 
-function disable() {
-    tinter.disable();
+disable() {
+    tinter.stop_now();
     tinter = null;
     menu.destroy();
     menu = null;
+    log(`CT - disabling ${Me.metadata.name}`);
 
 }
+
+}
+
+function init() {
+    log(`CT - initializing ${Me.metadata.name}`);
+
+    return new Extension();
+}
+
