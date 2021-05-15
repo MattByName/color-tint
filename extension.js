@@ -92,7 +92,9 @@ const ColorTinter = new Lang.Class({
             [flag, data] = this._file.load_contents(null);
 
             if (flag) {
-                overlay_color = JSON.parse(data);
+                const ByteArray = imports.byteArray;
+                let prepData = (data instanceof Uint8Array) ? ByteArray.toString(data) : data.toString();
+                overlay_color = JSON.parse(prepData);
             }
 
 
