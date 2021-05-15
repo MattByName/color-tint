@@ -1,12 +1,17 @@
 # Color Tint Changelog
 
+## 2.0.2
+
+### Fixes
+- Resolved warning: Disabling extension Error: Attempting to remove actor of type 'StBin' from group of class 'Gjs_ui_layout_UiActor', but the container is not the actor's parent.
+- Resolved warning: Some code called array.toString() on a Uint8Array instance.
+
 ## 2.0.1
 ### Fixes
 Responded to Gnome Extension moderator feedback:
 - Resolved warning: Usage of object.actor is deprecated for MenuButton
 - Resolved warning: Usage of object.actor is deprecated for Slider
-- Resolved error: Disabling extension Error: Attempting to remove actor of type 'StBin' from group of class 'Gjs_ui_layout_UiActor', but the container is not the actor's parent.
-- Removed log calls 
+- Removed log calls
 - Removed Extension class and returning Extension class in init() function (extension.js).
 
 ## 2.0.0
