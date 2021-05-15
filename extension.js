@@ -19,6 +19,8 @@ let overlay_color = {
 
 };
 
+let overlay_active = false;
+
 const ExtensionSystem = imports.ui.extensionSystem;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
@@ -76,12 +78,13 @@ const ColorTinter = new Lang.Class({
     },
     // Hide Overlay
     hide: function () {
-
+        overlay_active = false;
         Main.uiGroup.remove_actor(overlay);
     },
     // Show Overlay
     show: function () {
-        Main.uiGroup.add_child(overlay);
+        Main.uiGroup.add_actor(overlay);
+        overlay_active = true;
     },
     // Load Color
     loadColor: function () {
@@ -92,7 +95,9 @@ const ColorTinter = new Lang.Class({
             [flag, data] = this._file.load_contents(null);
 
             if (flag) {
-                overlay_color = JSON.parse(data);
+                const ByteArray = imports.byteArray;
+                let prepData = (data instanceof Uint8Array) ? ByteArray.toString(data) : data.toString();
+                overlay_color = JSON.parse(prepData);
             }
 
 
@@ -106,7 +111,7 @@ const ColorTinter = new Lang.Class({
     },
     // enable
     start_up: function () {
-
+        overlay_active = false;
         this.loadColor();
         this.createOverlay();
 
@@ -114,7 +119,10 @@ const ColorTinter = new Lang.Class({
 
     // disable
     stop_now: function () {
-        Main.uiGroup.remove_actor(overlay);
+
+        if (overlay_active == true) {
+            Main.uiGroup.remove_actor(overlay);
+        }
         overlay.destroy();
         overlay = null;
 
