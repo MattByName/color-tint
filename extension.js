@@ -38,11 +38,19 @@ const ColorTinter = new Lang.Class({
     // Create Tint Overlay
 
     createOverlay: function () {
+
+        /*
+        Set the overlay to 100x the primary monitor's width and height. Set the overlay x and y to 0.
+        This is hacky, but should cover most multi-setups.
+        What should be done, is to iterate over all monitors, and create a seperate overlay for each that fills each
+        according to its dimensions. If anyone wants to refactor this in that way, please do.
+         */
+
         let monitor = Main.layoutManager.primaryMonitor;
         overlay = new St.Bin({reactive: false});
-        overlay.set_size(monitor.width, monitor.height);
+        overlay.set_size(monitor.width *100, monitor.height*100);
         overlay.opacity = 255;
-        overlay.set_position(monitor.x, monitor.y);
+        overlay.set_position(0, 0);
         // Arbitrary z position above everything else
         overlay.set_z_position(650);
 
@@ -214,10 +222,6 @@ const MenuButton = new Lang.Class({
         log('CT - setting panel sliders')
         log(overlay_color['red'] / 255)
 
-        //this._redSlider.value = overlay_color["red"] / 255;
-        //this._greenSlider.value = overlay_color["green"] / 255;
-        //this._blueSlider.value = overlay_color["blue"] / 255;
-        //this._alphaSlider.value = overlay_color["alpha"] / 255;
         this._redSlider._setCurrentValue(this._redSlider, overlay_color["red"] / 255)
         this._blueSlider._setCurrentValue(this._blueSlider, overlay_color["blue"] / 255)
         this._greenSlider._setCurrentValue(this._greenSlider, overlay_color["green"] / 255)
