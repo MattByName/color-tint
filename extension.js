@@ -38,7 +38,7 @@ const ColorTinter = new Lang.Class({
 
     createOverlay: function () {
         let monitor = Main.layoutManager.primaryMonitor;
-        overlay = new St.Bin({reactive: false, x_fill: true, y_fill: true});
+        overlay = new St.Bin({reactive: false});
         overlay.set_size(monitor.width, monitor.height);
         overlay.opacity = 255;
         overlay.set_position(monitor.x, monitor.y);
@@ -70,7 +70,7 @@ const ColorTinter = new Lang.Class({
     },
     // Show Overlay
     show: function () {
-        Main.uiGroup.add_actor(overlay);
+        Main.uiGroup.add_child(overlay);
     },
     // Load Color
     loadColor: function () {
@@ -141,7 +141,7 @@ const MenuButton = new Lang.Class({
 
         // Other standard menu items
 
-        let offswitch = new PopupMenu.PopupSwitchMenuItem('Tint');
+        let offswitch = new PopupMenu.PopupSwitchMenuItem('Tint', true);
 
 
         // Assemble all menu items
@@ -169,30 +169,30 @@ const MenuButton = new Lang.Class({
 
         let _redLabel = new St.Label({text: "R"});
         this._redSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
-        this._redSliderContainer.actor.add(_redLabel);
-        this._redSliderContainer.actor.add(this._redSlider.actor, {expand: true});
+        this._redSliderContainer.add_child(_redLabel);
+        this._redSliderContainer.add_child(this._redSlider.actor);
         this.menu.addMenuItem(this._redSliderContainer);
 
 
         let _greenLabel = new St.Label({text: "G"});
         this._greenSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
-        this._greenSliderContainer.actor.add(_greenLabel);
-        this._greenSliderContainer.actor.add(this._greenSlider.actor, {expand: true});
+        this._greenSliderContainer.add_child(_greenLabel);
+        this._greenSliderContainer.add_child(this._greenSlider.actor);
         this.menu.addMenuItem(this._greenSliderContainer);
 
 
         let _blueLabel = new St.Label({text: "B"});
         this._blueSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
-        this._blueSliderContainer.actor.add(_blueLabel);
-        this._blueSliderContainer.actor.add(this._blueSlider.actor, {expand: true});
+        this._blueSliderContainer.add_child(_blueLabel);
+        this._blueSliderContainer.add_child(this._blueSlider.actor);
         this.menu.addMenuItem(this._blueSliderContainer);
 
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
 
         let _alphaLabel = new St.Label({text: "Alpha"});
         this._alphaSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
-        this._alphaSliderContainer.actor.add(_alphaLabel);
-        this._alphaSliderContainer.actor.add(this._alphaSlider.actor, {expand: true});
+        this._alphaSliderContainer.add_child(_alphaLabel);
+        this._alphaSliderContainer.add_child(this._alphaSlider.actor);
         this.menu.addMenuItem(this._alphaSliderContainer);
 
         this._redSlider.connect('notify::value', Lang.bind(this, this._setColors));
@@ -230,7 +230,7 @@ function enable() {
     tinter = new ColorTinter();
     tinter.enable();
     menu = new MenuButton();
-    Main.panel.addToStatusArea("ChatStatus", menu, 0, "right");
+    Main.panel.addToStatusArea("Tint", menu, 0, "right");
 
 }
 
