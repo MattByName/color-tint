@@ -4,28 +4,25 @@ const St = imports.gi.St;
 const Clutter = imports.gi.Clutter;
 const Main = imports.ui.main;
 const Gio = imports.gi.Gio;
+const UiGroup = imports.ui.main.layoutManager.uiGroup;
 
 const Lang = imports.lang;
 const PopupMenu = imports.ui.popupMenu;
 const PanelMenu = imports.ui.panelMenu;
 const Slider = imports.ui.slider;
-let tinter = null;
-let menu = null;
-let overlay = null;
-
-let overlay_color = {
-  red: 20,
-  green: 20,
-  blue: 20,
-  alpha: 80,
-};
-
-let overlay_active = false;
 
 const ExtensionSystem = imports.ui.extensionSystem;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 const ShellVersion = imports.misc.config.PACKAGE_VERSION.split(".");
+const BrightnessEffectName = "brightness-effect";
+
+let tinter = null;
+let menu = null;
+let overlay = {
+  brightness: 100,
+};
+let overlay_active = false;
 
 let ExtensionPath;
 if (ShellVersion[1] === 2) {
@@ -40,47 +37,34 @@ const AlphaTinter = new Lang.Class({
 
   // Create Tint Overlay
   createOverlay: function () {
-    /*
-    Set the overlay to 100x the primary monitor's width and height. Set the
-    overlay x and y to 0. This is hacky, but should cover most multi-setups.
-    What should be done, is to iterate over all monitors, and create a seperate
-    overlay for each that fills each according to its dimensions. If anyone
-    wants to refactor this in that way, please do.
-    */
-
-    let monitor = Main.layoutManager.primaryMonitor;
-    overlay = new St.Bin({ reactive: false });
-    overlay.set_size(monitor.width * 100, monitor.height * 100);
-    overlay.opacity = 255;
-    overlay.set_position(0, 0);
-
-    // Arbitrary z position above everything else
-    overlay.set_z_position(650);
-
+    this._effect = new Clutter.BrightnessContrastEffect();
     this.setOverlayColor();
   },
 
   // Update color of Overlay
   setOverlayColor: function () {
-    var color = new Clutter.Color({
-      red: overlay_color["red"],
-      green: overlay_color["green"],
-      blue: overlay_color["blue"],
-      alpha: overlay_color["alpha"],
-    });
-    overlay.set_background_color(color);
+    this._effect.brightness = Clutter.Color.new(
+      overlay["brightness"],
+      overlay["brightness"],
+      overlay["brightness"],
+      255
+    );
+    if (overlay_active) {
+      UiGroup.remove_effect_by_name(BrightnessEffectName);
+      UiGroup.add_effect_with_name(BrightnessEffectName, this._effect);
+    }
     this.saveColor();
   },
 
   // Hide Overlay
   hide: function () {
     overlay_active = false;
-    Main.uiGroup.remove_actor(overlay);
+    UiGroup.remove_effect_by_name(BrightnessEffectName);
   },
 
   // Show Overlay
   show: function () {
-    Main.uiGroup.add_actor(overlay);
+    UiGroup.add_effect_with_name(BrightnessEffectName, this._effect);
     overlay_active = true;
   },
 
@@ -97,7 +81,7 @@ const AlphaTinter = new Lang.Class({
           data instanceof Uint8Array
             ? ByteArray.toString(data)
             : data.toString();
-        overlay_color = JSON.parse(prepData);
+        overlay = JSON.parse(prepData);
       }
     }
   },
@@ -105,13 +89,7 @@ const AlphaTinter = new Lang.Class({
   // Save Color
   saveColor: function () {
     this._file = Gio.file_new_for_path(ExtensionPath + "/settings.json");
-    this._file.replace_contents(
-      JSON.stringify(overlay_color),
-      null,
-      false,
-      0,
-      null
-    );
+    this._file.replace_contents(JSON.stringify(overlay), null, false, 0, null);
   },
 
   // enable
@@ -124,9 +102,8 @@ const AlphaTinter = new Lang.Class({
   // disable
   stop_now: function () {
     if (overlay_active == true) {
-      Main.uiGroup.remove_actor(overlay);
+      UiGroup.remove_effect_by_name(BrightnessEffectName);
     }
-    overlay.destroy();
     overlay = null;
   },
 });
@@ -184,7 +161,7 @@ const MenuButton = new Lang.Class({
     );
 
     this._alphaSlider = new Slider.Slider(0);
-    let _alphaLabel = new St.Label({ text: "Alpha" });
+    let _alphaLabel = new St.Label({ text: "Brightness" });
     this._alphaSliderContainer = new PopupMenu.PopupBaseMenuItem({
       activate: false,
     });
@@ -192,23 +169,20 @@ const MenuButton = new Lang.Class({
     this._alphaSliderContainer.add_child(this._alphaSlider);
     this.menu.addMenuItem(this._alphaSliderContainer);
 
-    this._alphaSlider.connect(
-      "notify::value",
-      Lang.bind(this, this._setColors)
-    );
+    this._alphaSlider.connect("notify::value", Lang.bind(this, this._setDim));
 
-    this._getColors();
+    this._getDim();
   },
 
-  _getColors: function () {
+  _getDim: function () {
     this._alphaSlider._setCurrentValue(
       this._alphaSlider,
-      overlay_color["alpha"] / 255
+      (overlay["brightness"] - 64) / 63
     );
   },
 
-  _setColors: function () {
-    overlay_color["alpha"] = 255 * this._alphaSlider._getCurrentValue();
+  _setDim: function () {
+    overlay["brightness"] = 64 + this._alphaSlider._getCurrentValue() * 63;
     tinter.setOverlayColor();
   },
 });
