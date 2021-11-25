@@ -1,9 +1,8 @@
 {
-  "name": "ColorTint",
-  "description": "Tint your desktop with a color of your choice to help with dyslexia, scopic sensitivity, and related conditions.",
-  "uuid": "colortint@matt.serverus.co.uk",
-  "url": "https://github.com/MattByName/color-tint",
-  "shell-version": [
-    "40"
-  ]
+  "uuid": "alphatint@saifulbkhan.github.com",
+  "name": "AlphaTint",
+  "description": "Tint your desktop with an alpha channel that helps artificially reduce brightness of your displays.\n\nIt is a fork of ColorTint",
+  "version": 1,
+  "shell-version": ["40", "41"],
+  "url": "https://github.com/saifulbkhan/alpha-tint"
 }
