@@ -1,8 +1,8 @@
 {
   "uuid": "alphatint@saifulbkhan.github.com",
   "name": "AlphaTint",
-  "description": "Artificially reduce brightness of your displays.\n\nIt is a fork of ColorTint",
-  "version": 2,
+  "description": "Artificially reduce brightness of your displays (including external monitors).\n\nIt is a fork of ColorTint modified to reduce brightness without an alpha channel.",
+  "version": 3,
   "shell-version": ["40", "41"],
   "url": "https://github.com/saifulbkhan/alpha-tint"
 }

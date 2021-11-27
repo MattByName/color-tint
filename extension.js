@@ -20,9 +20,9 @@ const BrightnessEffectName = "brightness-effect";
 let tinter = null;
 let menu = null;
 let overlay = {
+  active: false,
   brightness: 100,
 };
-let overlay_active = false;
 
 let ExtensionPath;
 if (ShellVersion[1] === 2) {
@@ -38,38 +38,40 @@ const AlphaTinter = new Lang.Class({
   // Create Tint Overlay
   createOverlay: function () {
     this._effect = new Clutter.BrightnessContrastEffect();
-    this.setOverlayColor();
+    this.setOverlayBrightness();
   },
 
-  // Update color of Overlay
-  setOverlayColor: function () {
+  // Update color of overlay
+  setOverlayBrightness: function () {
     this._effect.brightness = Clutter.Color.new(
       overlay["brightness"],
       overlay["brightness"],
       overlay["brightness"],
       255
     );
-    if (overlay_active) {
+    if (overlay.active) {
       UiGroup.remove_effect_by_name(BrightnessEffectName);
       UiGroup.add_effect_with_name(BrightnessEffectName, this._effect);
     }
-    this.saveColor();
+    this.saveState();
   },
 
-  // Hide Overlay
+  // Hide overlay
   hide: function () {
-    overlay_active = false;
+    overlay.active = false;
     UiGroup.remove_effect_by_name(BrightnessEffectName);
+    this.saveState();
   },
 
-  // Show Overlay
+  // Show overlay
   show: function () {
     UiGroup.add_effect_with_name(BrightnessEffectName, this._effect);
-    overlay_active = true;
+    overlay.active = true;
+    this.saveState();
   },
 
-  // Load Color
-  loadColor: function () {
+  // Load state
+  loadState: function () {
     // Load last from json
     this._file = Gio.file_new_for_path(ExtensionPath + "/settings.json");
     if (this._file.query_exists(null)) {
@@ -86,25 +88,24 @@ const AlphaTinter = new Lang.Class({
     }
   },
 
-  // Save Color
-  saveColor: function () {
+  // Save state
+  saveState: function () {
     this._file = Gio.file_new_for_path(ExtensionPath + "/settings.json");
     this._file.replace_contents(JSON.stringify(overlay), null, false, 0, null);
   },
 
-  // enable
+  // Enable
   start_up: function () {
-    overlay_active = false;
-    this.loadColor();
+    overlay.active = false;
+    this.loadState();
     this.createOverlay();
   },
 
-  // disable
+  // Disable
   stop_now: function () {
-    if (overlay_active == true) {
+    if (overlay.active == true) {
       UiGroup.remove_effect_by_name(BrightnessEffectName);
     }
-    overlay = null;
   },
 });
 
@@ -142,7 +143,7 @@ const MenuButton = new Lang.Class({
     popupMenuExpander.menu.addMenuItem(submenu);
     popupMenuExpander.menu.box.add(label);
 
-    let offswitch = new PopupMenu.PopupSwitchMenuItem("Tint", false);
+    let offswitch = new PopupMenu.PopupSwitchMenuItem("Tint", overlay.active);
 
     this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
     this.menu.addMenuItem(offswitch);
@@ -169,21 +170,24 @@ const MenuButton = new Lang.Class({
     this._alphaSliderContainer.add_child(this._alphaSlider);
     this.menu.addMenuItem(this._alphaSliderContainer);
 
-    this._alphaSlider.connect("notify::value", Lang.bind(this, this._setDim));
+    this._alphaSlider.connect(
+      "notify::value",
+      Lang.bind(this, this._setBrightness)
+    );
 
-    this._getDim();
+    this._getBrightness();
   },
 
-  _getDim: function () {
+  _getBrightness: function () {
     this._alphaSlider._setCurrentValue(
       this._alphaSlider,
       (overlay["brightness"] - 64) / 63
     );
   },
 
-  _setDim: function () {
+  _setBrightness: function () {
     overlay["brightness"] = 64 + this._alphaSlider._getCurrentValue() * 63;
-    tinter.setOverlayColor();
+    tinter.setOverlayBrightness();
   },
 });
 
