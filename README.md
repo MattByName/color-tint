@@ -1,4 +1,6 @@
 # ColorTint
+## NEW MAINTAINER WANTED
+As much as I enjoyed getting this extension going, I'm not currently in a position to maintain it as regularly as is needed. Javascript isn't a language I know well, making it difficult for me to keep up with changes to the Gnome API. On top of that, I don't actually use GNOME myself anymore. If you're interested in taking over this project, which offers an important accessibility feature to Gnome, please drop me an email at [drmattbarnard@gmail.com](mailto:drmattbarnard@gmail.com).
 ## About
 ColorTint is a Gnome extension that draws a translucent coloured overlay over your desktop. This is to help people with dyslexia, scopic sensitivity, and related conditions.
 
