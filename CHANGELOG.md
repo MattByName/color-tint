@@ -1,5 +1,10 @@
 # Color Tint Changelog
 
+## 2.1.0
+### Fixes
+- Now loads in Gnome 42
+###
+- Adopted [new GJS Class Syntax](https://gjs.guide/guides/gjs/legacy-class-syntax.html#comparison-between-legacy-and-es6)
 ## 2.0.2
 
 ### Fixes
