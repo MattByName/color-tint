@@ -264,9 +264,6 @@ const MenuButton = GObject.registerClass ({
 })
 
 
-function constructor() {
-
-}
 
 function enable() {
 
