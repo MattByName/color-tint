@@ -18,18 +18,11 @@ You can also install ColorTint manually by downloading the [latest release](http
 * Custom translucency through alpha slider
 * ColorTint remembers your chosen color, automatically saving it when you change it, and loading on launch
 * The tint is off by default. Click the paintbrush icon and toggle "Tint" to enable.
-* Supports multiple monitor setups
-* Supports Gnome 40
+* Supports multiple monitor setup
 
 ## Contributing
 Please do contribute if you want to change something or help out with one of the issues.
 
 # Support, Feature Requests and Bug Reports
 Please [raise an issue](https://github.com/MattByName/color-tint/issues/new) or raise a pull request. Alternatively, you can contact me via matrix at [@mattbyname:matrix.org](https://matrix.to/#/@mattbyname:matrix.org)
-
-### If you find a bug
-Please [raise an issue](https://github.com/MattByName/color-tint/issues/new)
-
-### If you know how to fix a bug
-Please fix it, or [tell me how](https://github.com/MattByName/color-tint/issues/new)! Any issues I have raised and are open are those I have noticed myself but haven't had time to investigate the cause.
 
