@@ -22,10 +22,10 @@ You can also install ColorTint manually by downloading the [latest release](http
 * Supports Gnome 40
 
 ## Contributing
-Please do contribute if you want to change something or help out with one of the issues. I'm not very familiar with JavaScript, and only made this because I needed it for myself.
+Please do contribute if you want to change something or help out with one of the issues.
 
-### If you want a new feature
-Please [raise an issue](https://github.com/MattByName/color-tint/issues/new) or, if you have the skill, make a pull request.
+# Support, Feature Requests and Bug Reports
+Please [raise an issue](https://github.com/MattByName/color-tint/issues/new) or raise a pull request. Alternatively, you can contact me via matrix at [@mattbyname:matrix.org](https://matrix.to/#/@mattbyname:matrix.org)
 
 ### If you find a bug
 Please [raise an issue](https://github.com/MattByName/color-tint/issues/new)
