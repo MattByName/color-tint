@@ -2,8 +2,7 @@ const St = imports.gi.St;
 const Clutter = imports.gi.Clutter;
 const Main = imports.ui.main;
 const Gio = imports.gi.Gio;
-
-const Lang = imports.lang;
+const GObject = imports.gi.GObject;
 const PopupMenu = imports.ui.popupMenu;
 const PanelMenu = imports.ui.panelMenu;
 const Slider = imports.ui.slider;
@@ -19,6 +18,8 @@ let overlay_color = {
 
 };
 
+let overlay_active = false;
+
 const ExtensionSystem = imports.ui.extensionSystem;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
@@ -31,13 +32,14 @@ if (ShellVersion[1] === 2) {
     ExtensionPath = imports.misc.extensionUtils.getCurrentExtension().path;
 }
 
-const ColorTinter = new Lang.Class({
-    Name: "ColorTinter",
+const ColorTinter = GObject.registerClass({
+    GTypeName: "ColorTinter",
+}, class ColorTinter extends GObject.Object {
 
 
     // Create Tint Overlay
 
-    createOverlay: function () {
+    createOverlay() {
 
         /*
         Set the overlay to 100x the primary monitor's width and height. Set the overlay x and y to 0.
@@ -48,7 +50,7 @@ const ColorTinter = new Lang.Class({
 
         let monitor = Main.layoutManager.primaryMonitor;
         overlay = new St.Bin({reactive: false});
-        overlay.set_size(monitor.width *100, monitor.height*100);
+        overlay.set_size(monitor.width * 100, monitor.height * 100);
         overlay.opacity = 255;
         overlay.set_position(0, 0);
         // Arbitrary z position above everything else
@@ -57,11 +59,12 @@ const ColorTinter = new Lang.Class({
         this.setOverlayColor();
 
 
+    }
 
-    },
+
 
     // Update color of Overlay
-    setOverlayColor: function () {
+    setOverlayColor() {
 
         var color = new Clutter.Color(
             {
@@ -73,62 +76,82 @@ const ColorTinter = new Lang.Class({
         overlay.set_background_color(color);
         this.saveColor();
 
-    },
-    // Hide Overlay
-    hide: function () {
+    }
 
+
+    // Hide Overlay
+    hide() {
+        overlay_active = false;
         Main.uiGroup.remove_actor(overlay);
-    },
+    }
+
+
     // Show Overlay
-    show: function () {
-        Main.uiGroup.add_child(overlay);
-    },
+    show() {
+        Main.uiGroup.add_actor(overlay);
+        overlay_active = true;
+    }
+
     // Load Color
-    loadColor: function () {
+    loadColor() {
         // Load last from json
-        log('CT - Loading Color')
+
         this._file = Gio.file_new_for_path(ExtensionPath + '/settings.json');
         if (this._file.query_exists(null)) {
+            var flag;
+            var data;
             [flag, data] = this._file.load_contents(null);
 
             if (flag) {
-                overlay_color = JSON.parse(data);
+                const ByteArray = imports.byteArray;
+                let prepData = (data instanceof Uint8Array) ? ByteArray.toString(data) : data.toString();
+                overlay_color = JSON.parse(prepData);
             }
-            log(data)
+
 
         }
-    },
+    }
+
+
 
     // Save Color
-    saveColor: function () {
+    saveColor() {
         this._file = Gio.file_new_for_path(ExtensionPath + '/settings.json');
         this._file.replace_contents(JSON.stringify(overlay_color), null, false, 0, null);
-    },
+    }
+
+
     // enable
-    start_up: function () {
-        log('CT - enable tinter')
+    start_up() {
+        overlay_active = false;
         this.loadColor();
         this.createOverlay();
 
-    },
+    }
+
+
 
     // disable
-    stop_now: function () {
-        Main.uiGroup.remove_actor(overlay);
+    stop_now() {
+
+        if (overlay_active == true) {
+            Main.uiGroup.remove_actor(overlay);
+        }
         overlay.destroy();
         overlay = null;
 
-    },
+    }
+
+
 })
 
-const MenuButton = new Lang.Class({
-    Name: "MenuButton",
-    Extends: PanelMenu.Button,
+const MenuButton = GObject.registerClass ({
+    GTypeName: 'MenuButton',}, class MenuButton extends PanelMenu.Button {
 
 
     // Constructor
-    _init: function () {
-        this.parent(1, 'ColorTintMenu', false);
+    _init() {
+        super._init(1, 'ColorTintMenu', false);
         let box = new St.BoxLayout();
         let icon = new St.Icon({icon_name: 'applications-graphics-symbolic', style_class: 'system-status-icon'});
 
@@ -139,7 +162,7 @@ const MenuButton = new Lang.Class({
 
         // We add the box to the button
         // It will be showed in the Top Panel
-        this.actor.add_child(box);
+        this.add_child(box);
 
         let popupMenuExpander = new PopupMenu.PopupSubMenuMenuItem('PopupSubMenuMenuItem');
 
@@ -165,14 +188,14 @@ const MenuButton = new Lang.Class({
         this.menu.addMenuItem(offswitch);
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
 
-        offswitch.connect('toggled', Lang.bind(this, function (object, value) {
+        offswitch.connect('toggled', (object, value) => {
             // We will just change the text content of the label
             if (value) {
                 tinter.show()
             } else {
                 tinter.hide()
             }
-        }));
+        });
 
 
         this._redSlider = new Slider.Slider(0);
@@ -184,21 +207,21 @@ const MenuButton = new Lang.Class({
         let _redLabel = new St.Label({text: "R"});
         this._redSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._redSliderContainer.add_child(_redLabel);
-        this._redSliderContainer.add_child(this._redSlider.actor);
+        this._redSliderContainer.add_child(this._redSlider);
         this.menu.addMenuItem(this._redSliderContainer);
 
 
         let _greenLabel = new St.Label({text: "G"});
         this._greenSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._greenSliderContainer.add_child(_greenLabel);
-        this._greenSliderContainer.add_child(this._greenSlider.actor);
+        this._greenSliderContainer.add_child(this._greenSlider);
         this.menu.addMenuItem(this._greenSliderContainer);
 
 
         let _blueLabel = new St.Label({text: "B"});
         this._blueSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._blueSliderContainer.add_child(_blueLabel);
-        this._blueSliderContainer.add_child(this._blueSlider.actor);
+        this._blueSliderContainer.add_child(this._blueSlider);
         this.menu.addMenuItem(this._blueSliderContainer);
 
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
@@ -206,21 +229,20 @@ const MenuButton = new Lang.Class({
         let _alphaLabel = new St.Label({text: "Alpha"});
         this._alphaSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._alphaSliderContainer.add_child(_alphaLabel);
-        this._alphaSliderContainer.add_child(this._alphaSlider.actor);
+        this._alphaSliderContainer.add_child(this._alphaSlider);
         this.menu.addMenuItem(this._alphaSliderContainer);
 
-        this._redSlider.connect('notify::value', Lang.bind(this, this._setColors));
-        this._blueSlider.connect('notify::value', Lang.bind(this, this._setColors));
-        this._greenSlider.connect('notify::value', Lang.bind(this, this._setColors));
-        this._alphaSlider.connect('notify::value', Lang.bind(this, this._setColors));
+        this._redSlider.connect('notify::value', this._setColors.bind(this));
+        this._blueSlider.connect('notify::value', this._setColors.bind(this));
+        this._greenSlider.connect('notify::value', this._setColors.bind(this));
+        this._alphaSlider.connect('notify::value', this._setColors.bind(this));
 
         this._getColors();
 
 
-    },
-    _getColors: function () {
-        log('CT - setting panel sliders')
-        log(overlay_color['red'] / 255)
+    }
+    _getColors() {
+
 
         this._redSlider._setCurrentValue(this._redSlider, overlay_color["red"] / 255)
         this._blueSlider._setCurrentValue(this._blueSlider, overlay_color["blue"] / 255)
@@ -228,27 +250,23 @@ const MenuButton = new Lang.Class({
         this._alphaSlider._setCurrentValue(this._alphaSlider, overlay_color["alpha"] / 255)
 
 
+    }
+    _setColors() {
 
-    },
-    _setColors: function () {
-        log(this._redSlider._getCurrentValue())
         overlay_color["red"] = 255 * this._redSlider._getCurrentValue();
         overlay_color["green"] = 255 * this._greenSlider._getCurrentValue();
         overlay_color["blue"] = 255 * this._blueSlider._getCurrentValue();
         overlay_color["alpha"] = 255 * this._alphaSlider._getCurrentValue();
 
         tinter.setOverlayColor();
-    },
+    }
 
 })
 
-class Extension {
-constructor() {
 
-}
 
-enable() {
-    log(`CT - enabling ${Me.metadata.name}`);
+function enable() {
+
     tinter = new ColorTinter();
     tinter.start_up();
     menu = new MenuButton();
@@ -256,20 +274,17 @@ enable() {
 
 }
 
-disable() {
+function disable() {
     tinter.stop_now();
     tinter = null;
     menu.destroy();
     menu = null;
-    log(`CT - disabling ${Me.metadata.name}`);
 
 }
 
-}
 
 function init() {
-    log(`CT - initializing ${Me.metadata.name}`);
 
-    return new Extension();
+
 }
 

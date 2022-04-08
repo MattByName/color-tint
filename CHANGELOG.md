@@ -1,10 +1,46 @@
 # Color Tint Changelog
 
+## 2.1.0
+### Fixes
+- Now loads in Gnome 42
+###
+- Adopted [new GJS Class Syntax](https://gjs.guide/guides/gjs/legacy-class-syntax.html#comparison-between-legacy-and-es6)
+## 2.0.2
+
+### Fixes
+- Resolved warning: Disabling extension Error: Attempting to remove actor of type 'StBin' from group of class 'Gjs_ui_layout_UiActor', but the container is not the actor's parent.
+- Resolved warning: Some code called array.toString() on a Uint8Array instance.
+
+## 2.0.1
+### Fixes
+Responded to Gnome Extension moderator feedback:
+- Resolved warning: Usage of object.actor is deprecated for MenuButton
+- Resolved warning: Usage of object.actor is deprecated for Slider
+- Removed log calls
+- Removed Extension class and returning Extension class in init() function (extension.js).
+
+## 2.0.0
+
+### Added
+- Gnome 40 Support
+- Multiple monitor support
+
+### Fixes
+- Now loads in Gnome 40
+- Fixed various deprecated calls
+- Colors now loading after bug caused by 'Slider.value = ' no longer working. Switched to 'Slider._setCurrentValue'
+- Fixed problem where the Tint switch was defaulting to on when it should be to off
+- Refactored constructor to match latest Gnome extension documentation
+
 ## 1.1.1
+
+### Removed
+- Removed version number from Readme (redundant)
 
 ### Fixes
 - Updated metadata to say 3.34.1
-- Removed version number from Readme (redundant)
+  
+
 
 ## 1.1.0
 
