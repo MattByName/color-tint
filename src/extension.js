@@ -155,10 +155,10 @@ const MenuButton = GObject.registerClass ({
         let box = new St.BoxLayout();
         let icon = new St.Icon({icon_name: 'applications-graphics-symbolic', style_class: 'system-status-icon'});
 
-        // We add the icon, the label and a arrow icon to the box
+        // We add the icon
+        icon.gicon = Gio.icon_new_for_string(`${Me.path}/icon.svg`);
+        icon.set_icon_size(20)
         box.add(icon);
-
-        box.add(PopupMenu.arrowIcon(St.Side.BOTTOM));
 
         // We add the box to the button
         // It will be showed in the Top Panel
