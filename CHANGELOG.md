@@ -1,5 +1,12 @@
 # Color Tint Changelog
-
+## 2.2.0
+### Fixes
+ - Confirms GNOME 41 support
+### Added
+ - Adds logo as icon
+ - Placed source into src folder
+ - Added install script
+ - Added packaging script
 ## 2.1.0
 ### Fixes
 - Now loads in Gnome 42
