@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1000"
+   height="1000"
+   viewBox="0 0 264.58333 264.58333"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04, custom)"
+   sodipodi:docname="logo.svg"
+   inkscape:export-filename="/home/matt/coding/color-tint/assets/logo.png"
+   inkscape:export-xdpi="100.0021"
+   inkscape:export-ydpi="100.0021"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:snap-global="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="348.60364"
+     inkscape:cy="445.47727"
+     inkscape:window-width="2560"
+     inkscape:window-height="1371"
+     inkscape:window-x="1920"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2"
+     units="px"
+     width="1000px"
+     inkscape:showpageshadow="false"
+     showborder="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid824" />
+    <sodipodi:guide
+       position="114.54281,227.92032"
+       orientation="0,-1"
+       id="guide38166" />
+    <sodipodi:guide
+       position="98.160414,267.63126"
+       orientation="1,0"
+       id="guide38168" />
+    <sodipodi:guide
+       position="42.597916,215.77292"
+       orientation="1,0"
+       id="guide38170" />
+    <sodipodi:guide
+       position="151.07708,200.95626"
+       orientation="1,0"
+       id="guide38172" />
+    <sodipodi:guide
+       position="-35.718749,282.71251"
+       orientation="0,-1"
+       id="guide38174" />
+    <sodipodi:guide
+       position="134.9375,174.23334"
+       orientation="0,-1"
+       id="guide38176" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Layer 4" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="Layer 5"
+     style="display:inline">
+    <rect
+       style="opacity:1;fill:#e8ecff;fill-opacity:1;stroke-width:0.554572;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect4319"
+       width="242.31091"
+       height="242.31091"
+       x="11.13621"
+       y="11.13621"
+       ry="26.886192"
+       inkscape:export-filename="/home/matt/Documents/colortint/rect7151.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Layer 3"
+     style="display:none">
+    <circle
+       style="opacity:1;fill:#009e00;fill-opacity:0.519067;stroke-width:0.586001;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path892-3"
+       cx="132.29167"
+       cy="132.29167"
+       r="78.425873"
+       inkscape:export-filename="/home/matt/Documents/colortint/rect7151.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+  </g>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Tings"
+     style="display:inline">
+    <circle
+       style="opacity:0.352;fill:#9127d5;fill-opacity:1;stroke-width:0.462583"
+       id="circle39402"
+       cx="182.92973"
+       cy="80.097725"
+       r="61.949642" />
+    <circle
+       style="opacity:0.574428;fill:#2ca6dd;fill-opacity:1;stroke-width:0.471107"
+       id="circle46280"
+       cx="181.17119"
+       cy="183.34384"
+       r="63.091404" />
+    <circle
+       style="fill:#e99c52;fill-opacity:0.754795;stroke-width:0.469621"
+       id="path892"
+       cx="82.596466"
+       cy="83.354263"
+       r="62.892502" />
+    <circle
+       style="opacity:0.574428;fill:#dd3bdd;fill-opacity:1;stroke-width:0.474129"
+       id="circle996"
+       cx="83.49601"
+       cy="180.24167"
+       r="63.496464"
+       inkscape:export-filename="/home/matt/coding/color-tint/assets/logo.png"
+       inkscape:export-xdpi="100.0021"
+       inkscape:export-ydpi="100.0021" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer6"
+     inkscape:label="Layer 6" />
+</svg>
