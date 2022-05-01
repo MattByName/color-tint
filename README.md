@@ -24,5 +24,6 @@ You can also install ColorTint manually by downloading the [latest release](http
 Please do contribute if you want to change something or help out with one of the issues.
 
 ## Support, Feature Requests and Bug Reports
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E1CFXTK)
 Please [raise an issue](https://github.com/MattByName/color-tint/issues/new) or raise a pull request. Alternatively, you can contact me via matrix at [@mattbyname:matrix.org](https://matrix.to/#/@mattbyname:matrix.org)
 
