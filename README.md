@@ -3,6 +3,8 @@
 ## About
 ColorTint is a Gnome extension that draws a translucent coloured overlay over your desktop. This is to help people with dyslexia, scopic sensitivity, and related conditions.
 
+**Coming soon:** [KolorTint](https://github.com/MattByName/kolor-tint), a color overlay for KDE Plasma
+
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E1CFXTK)
 
 ### Links
