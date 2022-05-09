@@ -19,7 +19,7 @@ You can also install ColorTint manually by downloading the [latest release](http
 * Set any colour using RGB sliders
 * Custom translucency through alpha slider
 * ColorTint remembers your chosen color, automatically saving it when you change it, and loading on launch
-* The tint is off by default. Click the paintbrush icon and toggle "Tint" to enable.
+* The tint is off by default. Click the colortint icon and toggle "Tint" to enable.
 * Supports multiple monitor setup
 
 ## Contributing
