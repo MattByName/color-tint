@@ -29,8 +29,6 @@ I attempt to maintain backwards compatibility, but if an upgrade breaks support 
 | 3.36          | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
 | 3.34          | [v1.1.1](https://github.com/MattByName/color-tint/releases/tag/v1.1.1) | 4                             |
 | 3.32          | [v1.1.1](https://github.com/MattByName/color-tint/releases/tag/v1.1.1) | 4                             |
-|               |                                                                        |                               |
-|               |                                                                        |                               |
 
 ## Features
 * Set any colour using RGB sliders
