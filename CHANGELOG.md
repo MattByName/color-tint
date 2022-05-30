@@ -1,4 +1,9 @@
 # Color Tint Changelog
+## 2.2.1
+### Fixes
+ - Verified support with 3.38 and 3.36 and included in metadata
+### Added
+ - Version compatibility table in README
 ## 2.2.0
 ### Fixes
  - Confirms GNOME 41 support
