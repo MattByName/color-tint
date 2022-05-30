@@ -13,6 +13,21 @@ The easiest way to install is using the Gnome Extensions website. You can find C
 
 You can also install ColorTint manually by downloading the [latest release](https://github.com/MattByName/color-tint/releases) and unzipping it into the Gnome extensions folder on your desktop. You can find a guide on how to do that [here](https://www.ubuntubuzz.com/2017/11/how-to-install-manually-gnome-shell-extension.html)
 
+
+## Support for GNOME versions
+I attempt to maintain backwards compatibility, but if an upgrade breaks support for a release that has reached end of life, I will update the table below to show which version of ColorTint was last varified to work with it.
+| GNOME Version | ColorTint Version                                                      | GNOME Extensions Site Version |
+|:--------------|:-----------------------------------------------------------------------|:------------------------------|
+| 42            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | latest                        |
+| 41            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | latest                        |
+| 40            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | latest                        |
+| 3.38          | [latest](https://github.com/MattByName/color-tint/releases/latest)     | latest                        |
+| 3.36          | [latest](https://github.com/MattByName/color-tint/releases/latest)     | latest                        |
+| 3.34          | [v1.1.1](https://github.com/MattByName/color-tint/releases/tag/v1.1.1) | 4                             |
+| 3.32          | [v1.1.1](https://github.com/MattByName/color-tint/releases/tag/v1.1.1) | 4                             |
+|               |                                                                        |                               |
+|               |                                                                        |                               |
+
 ## Features
 * Set any colour using RGB sliders
 * Custom translucency through alpha slider
