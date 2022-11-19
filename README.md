@@ -19,9 +19,12 @@ You can also install ColorTint manually by downloading the [latest release](http
 
 
 ## Support for GNOME versions
-I attempt to maintain backwards compatibility, but if an upgrade breaks support for a release that has reached end of life, I will update the table below to show which version of ColorTint was last varified to work with it.
+I attempt to maintain backwards compatibility, but if an upgrade breaks support for a release that has reached end of 
+life, I will update the table below to show which version of ColorTint was last varified to work with it.
+
 | GNOME Version | ColorTint Version                                                      | GNOME Extensions Site Version |
 |:--------------|:-----------------------------------------------------------------------|:------------------------------|
+| 43            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
 | 42            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
 | 41            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
 | 40            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
