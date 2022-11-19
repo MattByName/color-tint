@@ -24,12 +24,12 @@ life, I will update the table below to show which version of ColorTint was last 
 
 | GNOME Version | ColorTint Version                                                      | GNOME Extensions Site Version |
 |:--------------|:-----------------------------------------------------------------------|:------------------------------|
-| 43            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
-| 42            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
-| 41            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
-| 40            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
-| 3.38          | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
-| 3.36          | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
+| 43            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 14                            |
+| 42            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 14                            |
+| 41            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 14                            |
+| 40            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 14                            |
+| 3.38          | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 14                            |
+| 3.36          | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 14                            |
 | 3.34          | [v1.1.1](https://github.com/MattByName/color-tint/releases/tag/v1.1.1) | 4                             |
 | 3.32          | [v1.1.1](https://github.com/MattByName/color-tint/releases/tag/v1.1.1) | 4                             |
 
