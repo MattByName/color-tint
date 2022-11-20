@@ -24,6 +24,7 @@ const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 const ShellVersion = imports.misc.config.PACKAGE_VERSION.split('.');
 
+let settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.colortint');
 let ExtensionPath;
 if (ShellVersion[1] === 2) {
     ExtensionPath = ExtensionSystem.extensionMeta['colortint@matt.serverus.co.uk'].path;
