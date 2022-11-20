@@ -19,12 +19,12 @@ let overlay_color = {
 };
 
 let overlay_active = false;
-
 const ExtensionSystem = imports.ui.extensionSystem;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 const ShellVersion = imports.misc.config.PACKAGE_VERSION.split('.');
 
+let settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.colortint');
 let ExtensionPath;
 if (ShellVersion[1] === 2) {
     ExtensionPath = ExtensionSystem.extensionMeta['colortint@matt.serverus.co.uk'].path;
@@ -57,6 +57,7 @@ const ColorTinter = GObject.registerClass({
         overlay.set_z_position(650);
 
         this.setOverlayColor();
+
 
 
     }
@@ -123,9 +124,12 @@ const ColorTinter = GObject.registerClass({
 
     // enable
     start_up() {
-        overlay_active = false;
+        overlay_active = false; ;
         this.loadColor();
         this.createOverlay();
+        if (settings.get_boolean('autostart')) {
+            this.show()
+        }
 
     }
 
@@ -177,8 +181,7 @@ const MenuButton = GObject.registerClass ({
         popupMenuExpander.menu.box.add(label);
 
         // Other standard menu items
-
-        let offswitch = new PopupMenu.PopupSwitchMenuItem('Tint', false);
+        let offswitch = new PopupMenu.PopupSwitchMenuItem('Tint', overlay_active);
 
 
         // Assemble all menu items
