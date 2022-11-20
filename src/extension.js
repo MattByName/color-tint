@@ -160,7 +160,14 @@ const MenuButton = GObject.registerClass ({
         let icon = new St.Icon({icon_name: 'applications-graphics-symbolic', style_class: 'system-status-icon'});
 
         // We add the icon
-        icon.gicon = Gio.icon_new_for_string(`${Me.path}/icon.svg`);
+        let iconName = ''
+        if settings.get_boolean('monochrome-icon') {
+            iconName = 'icon_mono.svg';
+
+        } else {
+            iconName = 'icon.svg';
+        }
+        icon.gicon = Gio.icon_new_for_string(`${Me.path}/${iconName}`);
         icon.set_icon_size(20)
         box.add(icon);
 

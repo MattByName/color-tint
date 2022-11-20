@@ -39,6 +39,25 @@ function fillPreferencesWindow(window) {
     row.add_suffix(toggle);
     row.activatable_widget = toggle;
 
+    // Create a new preferences row
+    const row2 = new Adw.ActionRow({ title: 'Use monochrome system tray icon' });
+    group.add(row2);
+
+    // Create the switch and bind its value to the `monochrome` key
+    const toggle2 = new Gtk.Switch({
+        active: settings.get_boolean ('monochrome-icon'),
+        valign: Gtk.Align.CENTER,
+    });
+    settings.bind(
+        'autostart',
+        toggle,
+        'active',
+        Gio.SettingsBindFlags.DEFAULT
+    );
+
+    // Add the switch to the row
+    row2.add_suffix(toggle2);
+    row2.activatable_widget = toggle2;
     // Add our page to the window
     window.add(page);
 }
