@@ -19,7 +19,7 @@ let overlay_color = {
 };
 
 let overlay_active = false;
-
+let settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.colortint');
 const ExtensionSystem = imports.ui.extensionSystem;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
@@ -124,11 +124,10 @@ const ColorTinter = GObject.registerClass({
 
     // enable
     start_up() {
-        this.settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.colortint');
         overlay_active = false; ;
         this.loadColor();
         this.createOverlay();
-        if (this.settings.get_boolean('autostart')) {
+        if (settings.get_boolean('autostart')) {
             this.show()
         }
 
@@ -182,7 +181,7 @@ const MenuButton = GObject.registerClass ({
         popupMenuExpander.menu.box.add(label);
 
         // Other standard menu items
-        let offswitch_initial_state = tinter.overlay_active;
+        let offswitch_initial_state = settings.get_boolean('autostart');
         let offswitch = new PopupMenu.PopupSwitchMenuItem('Tint', offswitch_initial_state);
 
 
