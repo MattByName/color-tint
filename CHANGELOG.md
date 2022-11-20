@@ -1,11 +1,15 @@
 # Color Tint Changelog
-## upcoming
 
+# Upcoming
+
+## Fixes
+ - New overlay code to fix [Issue 20](https://github.com/MattByName/color-tint/issues/20)
+
+## 2.3.0
 ### Added
  - Makefile packaging
  - Monochrome icon
  - Autolaunch toggle in settings menu
-
 ## 2.2.2
 ### Added
  - GNOME 43 support confirmed
