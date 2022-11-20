@@ -35,7 +35,7 @@ life, I will update the table below to show which version of ColorTint was last 
 * Set any colour using RGB sliders
 * Custom translucency through alpha slider
 * ColorTint remembers your chosen color, automatically saving it when you change it, and loading on launch
-* The tint is off by default. Click the colortint icon and toggle "Tint" to enable.
+* The tint is on by default. Click the colortint icon and toggle "Tint" to enable. Go to settings in the Gnome Extensions app to change the default behaviour
 * Supports multiple monitor setup
 
 ## Contributing
