@@ -1,4 +1,11 @@
 # Color Tint Changelog
+## upcoming
+
+### Added
+ - Makefile packaging
+ - Monochrome icon
+ - Autolaunch toggle in settings menu
+
 ## 2.2.2
 ### Added
  - GNOME 43 support confirmed
