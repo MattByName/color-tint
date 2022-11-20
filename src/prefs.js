@@ -40,7 +40,7 @@ function fillPreferencesWindow(window) {
     row.activatable_widget = toggle;
 
     // Create a new preferences row
-    const row2 = new Adw.ActionRow({ title: 'Use monochrome system tray icon' });
+    const row2 = new Adw.ActionRow({ title: 'Use monochrome system tray icon', subtitle: 'Changes take effect on restart of extension' });
     group.add(row2);
 
     // Create the switch and bind its value to the `monochrome` key
