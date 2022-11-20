@@ -161,7 +161,7 @@ const MenuButton = GObject.registerClass ({
 
         // We add the icon
         let iconName = ''
-        if settings.get_boolean('monochrome-icon') {
+        if (settings.get_boolean('monochrome-icon')) {
             iconName = 'icon_mono.svg';
 
         } else {
