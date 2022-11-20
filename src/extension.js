@@ -182,8 +182,8 @@ const MenuButton = GObject.registerClass ({
         popupMenuExpander.menu.box.add(label);
 
         // Other standard menu items
-
-        let offswitch = new PopupMenu.PopupSwitchMenuItem('Tint', tinter.overlay_active);
+        let offswitch_initial_state = tinter.overlay_active;
+        let offswitch = new PopupMenu.PopupSwitchMenuItem('Tint', offswitch_initial_state);
 
 
         // Assemble all menu items
