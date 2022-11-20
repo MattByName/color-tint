@@ -3,8 +3,6 @@
 ## About
 ColorTint is a Gnome extension that draws a translucent coloured overlay over your desktop. This is to help people with dyslexia, visual stress, scopic sensitivity, and related conditions.
 
-**Coming soon:** [KolorTint](https://github.com/MattByName/kolor-tint), a color overlay for KDE Plasma
-
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E1CFXTK)
 
 ### Links
@@ -15,7 +13,7 @@ ColorTint is a Gnome extension that draws a translucent coloured overlay over yo
 ## Installation
 The easiest way to install is using the Gnome Extensions website. You can find ColorTint [here](https://extensions.gnome.org/extension/1789/colortint/)
 
-You can also install ColorTint manually by downloading the [latest release](https://github.com/MattByName/color-tint/releases) and unzipping it into the Gnome extensions folder on your desktop. You can find a guide on how to do that [here](https://www.ubuntubuzz.com/2017/11/how-to-install-manually-gnome-shell-extension.html)
+You can also install ColorTint manually by downloading the [latest release](https://github.com/MattByName/color-tint/releases) and unzipping it into the Gnome extensions folder on your desktop. You can find a guide on how to do that [here](https://www.ubuntubuzz.com/2017/11/how-to-install-manually-gnome-shell-extension.html). You can also clone this repository and use the terminal command `make install` from the repo root directory. 
 
 
 ## Support for GNOME versions
