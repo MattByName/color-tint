@@ -50,7 +50,7 @@ function fillPreferencesWindow(window) {
     });
     settings.bind(
         'monochrome-icon',
-        toggle,
+        toggle2,
         'active',
         Gio.SettingsBindFlags.DEFAULT
     );
