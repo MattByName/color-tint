@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.colortint" path="/org/gnome/shell/extensions/colortint/">
+    <!-- See also: https://docs.gtk.org/glib/gvariant-format-strings.html -->
+    <key name="monochrome-icon" type="b">
+      <default>true</default>
+      <summary>Monochrome Icon</summary>
+      <description>System tray icon should be monochrome or not</description>
+    </key>
+    <key name="autostart" type="b">
+      <default>false</default>
+      <summary>Show overlay on start</summary>
+      <description>Whether the overlay should be visible when the extension starts</description>
+    </key>
+  </schema>
+</schemalist>
