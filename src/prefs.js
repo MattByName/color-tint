@@ -49,7 +49,7 @@ function fillPreferencesWindow(window) {
         valign: Gtk.Align.CENTER,
     });
     settings.bind(
-        'autostart',
+        'monochrome-icon',
         toggle,
         'active',
         Gio.SettingsBindFlags.DEFAULT
