@@ -9,7 +9,7 @@ const Slider = imports.ui.slider;
 let tinter = null;
 let menu = null;
 let overlay = null;
-
+let settings = null;
 let overlay_color = {
     red: 20,
     green: 20,
@@ -21,10 +21,10 @@ let overlay_color = {
 let overlay_active = false;
 const ExtensionSystem = imports.ui.extensionSystem;
 const ExtensionUtils = imports.misc.extensionUtils;
+
 const Me = ExtensionUtils.getCurrentExtension();
 const ShellVersion = imports.misc.config.PACKAGE_VERSION.split('.');
 
-let settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.colortint');
 let ExtensionPath;
 if (ShellVersion[1] === 2) {
     ExtensionPath = ExtensionSystem.extensionMeta['colortint@matt.serverus.co.uk'].path;
@@ -277,6 +277,7 @@ const MenuButton = GObject.registerClass ({
 
 function enable() {
 
+    settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.colortint');
     tinter = new ColorTinter();
     tinter.start_up();
     menu = new MenuButton();
@@ -289,6 +290,8 @@ function disable() {
     tinter = null;
     menu.destroy();
     menu = null;
+    settings.destroy();
+    settings = null;
 
 }
 
