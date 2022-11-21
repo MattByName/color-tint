@@ -14,6 +14,9 @@ compile:
 	glib-compile-schemas src/schemas/
 .PHONY:compile
 
+lint:
+	eslint -c .eslintrc --fix src/*.js
+
 build: compile
 # Delete the output dir
 	rm -rf $(OUTPUT_DIR)

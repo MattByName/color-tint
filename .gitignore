@@ -3,3 +3,6 @@ settings.json
 *.zip
 bin/
 tmp/
+node_modules/
+package.json
+package-lock.json
