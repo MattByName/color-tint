@@ -268,7 +268,6 @@ function disable() {
     tinter = null;
     menu.destroy();
     menu = null;
-    settings.destroy();
     settings = null;
 }
 
