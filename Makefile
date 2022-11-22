@@ -30,6 +30,7 @@ build: compile
 	cp README.md $(WORKING_DIR)
 # zip the package and place in the output directory
 	cd ./$(WORKING_DIR); zip -r ../$(OUTPUT_DIR)$(OUTPUT_FNAME) .
+
 # delete the working directory
 	rm -rf $(WORKING_DIR)
 .PHONY:build
@@ -39,3 +40,9 @@ install: build
 	unzip $(OUTPUT_DIR)$(OUTPUT_FNAME) -d $(INSTALL_DIR)
 .PHONY:install
 # end
+sign: build
+# hash the zip package
+	md5sum 	$(OUTPUT_DIR)$(OUTPUT_FNAME) > $(OUTPUT_DIR)$(OUTPUT_FNAME).md5
+# sign the zip package
+	gpg -b $(OUTPUT_DIR)$(OUTPUT_FNAME)
+.PHONY:sign
