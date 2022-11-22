@@ -5,6 +5,9 @@ ColorTint is a Gnome extension that draws a translucent coloured overlay over yo
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E1CFXTK)
 
+### Updates and changes
+See the [changelog](CHANGELOG.md) for information on feature changes and updates.
+
 ### Links
 * [GitHub Repository](https://github.com/MattByName/color-tint)
 * [Gnome Extensions Page](https://extensions.gnome.org/extension/1789/colortint/)
@@ -43,5 +46,4 @@ Please do contribute if you want to change something or help out with one of the
 
 ## Support, Feature Requests and Bug Reports
 
-Please [raise an issue](https://github.com/MattByName/color-tint/issues/new) or raise a pull request. Alternatively, you can contact me via matrix at [@mattbyname:matrix.org](https://matrix.to/#/@mattbyname:matrix.org)
-
+Please [raise an issue](https://github.com/MattByName/color-tint/issues/new) or raise a pull request. Alternatively, you can contact me via matrix at [@mattbyname:matrix.org](https://matrix.to/#/@mattbyname:matrix.org).
