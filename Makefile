@@ -41,8 +41,6 @@ install: build
 .PHONY:install
 # end
 sign: build
-# hash the zip package
-	md5sum 	$(OUTPUT_DIR)$(OUTPUT_FNAME) > $(OUTPUT_DIR)$(OUTPUT_FNAME).md5
 # sign the zip package
 	gpg -b $(OUTPUT_DIR)$(OUTPUT_FNAME)
 .PHONY:sign
