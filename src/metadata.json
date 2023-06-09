@@ -4,12 +4,12 @@
   "uuid": "colortint@matt.serverus.co.uk",
   "url": "https://github.com/MattByName/color-tint",
   "settings-schema": "org.gnome.shell.extensions.colortint",
+  "donations": {
+    "kofi": "mattbyname"
+  },
   "shell-version": [
     "42",
     "43",
     "44"
-  ],
-  "donations": {
-    "kofi": "mattbyname",
-  }
+  ]
 }

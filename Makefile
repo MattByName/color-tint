@@ -36,5 +36,6 @@ build: compile
 install: build
 	rm -rf $(INSTALL_DIR)
 	unzip $(OUTPUT_DIR)$(OUTPUT_FNAME) -d $(INSTALL_DIR)
+	glib-compile-schemas $(INSTALL_DIR)/schemas/
 .PHONY:install
 # end
