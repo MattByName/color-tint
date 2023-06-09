@@ -5,6 +5,6 @@
   "url": "https://github.com/MattByName/color-tint",
   "settings-schema": "org.gnome.shell.extensions.colortint",
   "shell-version": [
-    "3.36","3.38","40","41","42","43"
+    "42","43"
   ]
 }

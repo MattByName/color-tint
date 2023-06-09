@@ -3,8 +3,6 @@
 ## About
 ColorTint is a Gnome extension that draws a translucent coloured overlay over your desktop. This is to help people with dyslexia, visual stress, scopic sensitivity, and related conditions.
 
-**Coming soon:** [KolorTint](https://github.com/MattByName/kolor-tint), a color overlay for KDE Plasma
-
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E1CFXTK)
 
 ### Links
@@ -15,21 +13,21 @@ ColorTint is a Gnome extension that draws a translucent coloured overlay over yo
 ## Installation
 The easiest way to install is using the Gnome Extensions website. You can find ColorTint [here](https://extensions.gnome.org/extension/1789/colortint/)
 
-You can also install ColorTint manually by downloading the [latest release](https://github.com/MattByName/color-tint/releases) and unzipping it into the Gnome extensions folder on your desktop. You can find a guide on how to do that [here](https://www.ubuntubuzz.com/2017/11/how-to-install-manually-gnome-shell-extension.html)
+You can also install ColorTint manually by downloading the [latest release](https://github.com/MattByName/color-tint/releases) and unzipping it into the Gnome extensions folder on your desktop. You can find a guide on how to do that [here](https://www.ubuntubuzz.com/2017/11/how-to-install-manually-gnome-shell-extension.html). You can also clone this repository and use the terminal command `make install` from the repo root directory. 
 
 
 ## Support for GNOME versions
 I attempt to maintain backwards compatibility, but if an upgrade breaks support for a release that has reached end of 
-life, I will update the table below to show which version of ColorTint was last varified to work with it.
+life, I will update the table below to show which version of ColorTint was last verified to work with it.
 
 | GNOME Version | ColorTint Version                                                      | GNOME Extensions Site Version |
 |:--------------|:-----------------------------------------------------------------------|:------------------------------|
-| 43            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
-| 42            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
-| 41            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
-| 40            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
-| 3.38          | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
-| 3.36          | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 12                            |
+| 43            | [latest](https://github.com/MattByName/color-tint/releases/latest)     |                               |
+| 42            | [latest](https://github.com/MattByName/color-tint/releases/latest)     |                               |
+| 41            | [v2.2.2](https://github.com/MattByName/color-tint/releases/tag/v2.2.2) | 14                            |
+| 40            | [v2.2.2](https://github.com/MattByName/color-tint/releases/tag/v2.2.2) | 14                            |
+| 3.38          | [v2.2.2](https://github.com/MattByName/color-tint/releases/tag/v2.2.2) | 14                            |
+| 3.36          | [v2.2.2](https://github.com/MattByName/color-tint/releases/tag/v2.2.2) | 14                            |
 | 3.34          | [v1.1.1](https://github.com/MattByName/color-tint/releases/tag/v1.1.1) | 4                             |
 | 3.32          | [v1.1.1](https://github.com/MattByName/color-tint/releases/tag/v1.1.1) | 4                             |
 
@@ -37,7 +35,7 @@ life, I will update the table below to show which version of ColorTint was last 
 * Set any colour using RGB sliders
 * Custom translucency through alpha slider
 * ColorTint remembers your chosen color, automatically saving it when you change it, and loading on launch
-* The tint is off by default. Click the colortint icon and toggle "Tint" to enable.
+* The tint is on by default. Click the colortint icon and toggle "Tint" to enable. Go to settings in the Gnome Extensions app to change the default behaviour
 * Supports multiple monitor setup
 
 ## Contributing
