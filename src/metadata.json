@@ -8,5 +8,8 @@
     "42",
     "43",
     "44"
-  ]
+  ],
+  "donations": {
+    "kofi": "mattbyname",
+  }
 }
