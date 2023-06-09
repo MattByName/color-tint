@@ -22,7 +22,7 @@ const ExtensionSystem = imports.ui.extensionSystem;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 const ShellVersion = imports.misc.config.PACKAGE_VERSION.split(".");
-
+let settings = null;
 let ExtensionPath;
 ExtensionPath = Me.path;
 const ColorTinter = GObject.registerClass(
@@ -266,9 +266,10 @@ function enable() {
   tinter.start_up();
   menu = new MenuButton();
   Main.panel.addToStatusArea("Tint", menu, 0, "right");
-  let settings = ExtensionUtils.getSettings(
-    "org.gnome.shell.extensions.colortint"
-  );
+  if (settings === null)
+    settings = ExtensionUtils.getSettings(
+      "org.gnome.shell.extensions.colortint"
+    );
 }
 
 /**
@@ -279,7 +280,7 @@ function disable() {
   tinter = null;
   menu.destroy();
   menu = null;
-  settings = null;
+  if (settings instanceof Gio.Settings) settings = null;
 }
 
 /**
