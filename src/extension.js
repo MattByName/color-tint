@@ -24,7 +24,6 @@ const Me = ExtensionUtils.getCurrentExtension();
 const ShellVersion = imports.misc.config.PACKAGE_VERSION.split(".");
 
 let ExtensionPath;
-else ExtensionPath = imports.misc.extensionUtils.getCurrentExtension().path;
 ExtensionPath = Me.path;
 const ColorTinter = GObject.registerClass(
   {
