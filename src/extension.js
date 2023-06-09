@@ -283,7 +283,7 @@ function disable() {
   tinter = null;
   menu.destroy();
   menu = null;
-  if (settings instanceof Gio.Settings) settings = null;
+  settings = null;
 }
 
 /**
