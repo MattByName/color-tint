@@ -113,7 +113,8 @@ const ColorTinter = GObject.registerClass(
       overlay_active = false;
       this.loadColor();
       this.createOverlay();
-      if (settings.get_boolean("autostart")) this.show();
+      if (settings instanceof Gio.Settings)
+        if (settings.get_boolean("autostart")) this.show();
     }
 
     // disable
