@@ -141,9 +141,10 @@ const MenuButton = GObject.registerClass(
 
       // We add the icon
       let iconName = "";
-      if (settings instanceof Gio.Settings)
+      if (settings instanceof Gio.Settings) {
         if (settings.get_boolean("monochrome-icon")) iconName = "icon_mono.svg";
         else iconName = "icon.svg";
+      } else iconName = "icon_mono.svg";
 
       icon.gicon = Gio.icon_new_for_string(`${Me.path}/${iconName}`);
       icon.set_icon_size(20);
