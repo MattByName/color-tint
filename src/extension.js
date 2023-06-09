@@ -113,10 +113,10 @@ const ColorTinter = GObject.registerClass(
       overlay_active = false;
       this.loadColor();
       this.createOverlay();
-      if (settings.get_boolean("autostart")) this.show();
       let settings = ExtensionUtils.getSettings(
         "org.gnome.shell.extensions.colortint"
       );
+      if (settings.get_boolean("autostart")) this.show();
     }
 
     // disable
