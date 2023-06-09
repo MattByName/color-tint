@@ -25,6 +25,8 @@ build: compile
 	cp CHANGELOG.md $(WORKING_DIR)
 	cp LICENSE $(WORKING_DIR)
 	cp README.md $(WORKING_DIR)
+# Remove compiled schemas
+	rm $(WORKING_DIR)schemas/*.compiled
 # zip the package and place in the output directory
 	cd ./$(WORKING_DIR); zip -r ../$(OUTPUT_DIR)$(OUTPUT_FNAME) .
 # delete the working directory
