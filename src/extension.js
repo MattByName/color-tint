@@ -113,9 +113,6 @@ const ColorTinter = GObject.registerClass(
       overlay_active = false;
       this.loadColor();
       this.createOverlay();
-      let settings = ExtensionUtils.getSettings(
-        "org.gnome.shell.extensions.colortint"
-      );
       if (settings.get_boolean("autostart")) this.show();
     }
 
@@ -125,8 +122,6 @@ const ColorTinter = GObject.registerClass(
 
       overlay.destroy();
       overlay = null;
-
-      settings = null;
     }
   }
 );
@@ -271,6 +266,9 @@ function enable() {
   tinter.start_up();
   menu = new MenuButton();
   Main.panel.addToStatusArea("Tint", menu, 0, "right");
+  let settings = ExtensionUtils.getSettings(
+    "org.gnome.shell.extensions.colortint"
+  );
 }
 
 /**
@@ -281,6 +279,7 @@ function disable() {
   tinter = null;
   menu.destroy();
   menu = null;
+  settings = null;
 }
 
 /**
