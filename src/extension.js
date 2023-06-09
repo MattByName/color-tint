@@ -26,21 +26,18 @@ const ShellVersion = imports.misc.config.PACKAGE_VERSION.split('.');
 
 let settings = ExtensionUtils.getSettings('org.gnome.shell.extensions.colortint');
 let ExtensionPath;
-if (ShellVersion[1] === 2) {
+if (ShellVersion[1] === 2)
     ExtensionPath = ExtensionSystem.extensionMeta['colortint@matt.serverus.co.uk'].path;
-} else {
+else
     ExtensionPath = imports.misc.extensionUtils.getCurrentExtension().path;
-}
+
 
 const ColorTinter = GObject.registerClass({
-    GTypeName: "ColorTinter",
+    GTypeName: 'ColorTinter',
 }, class ColorTinter extends GObject.Object {
-
-
     // Create Tint Overlay
 
     createOverlay() {
-
         /*
         Set the overlay to 100x the primary monitor's width and height. Set the overlay x and y to 0.
         This is hacky, but should cover most multi-setups.
@@ -57,26 +54,21 @@ const ColorTinter = GObject.registerClass({
         overlay.set_z_position(650);
 
         this.setOverlayColor();
-
-
-
     }
 
 
 
     // Update color of Overlay
     setOverlayColor() {
-
         var color = new Clutter.Color(
             {
-                red: overlay_color["red"],
-                green: overlay_color["green"],
-                blue: overlay_color["blue"],
-                alpha: overlay_color["alpha"]
+                red: overlay_color['red'],
+                green: overlay_color['green'],
+                blue: overlay_color['blue'],
+                alpha: overlay_color['alpha'],
             });
         overlay.set_background_color(color);
         this.saveColor();
-
     }
 
 
@@ -97,7 +89,7 @@ const ColorTinter = GObject.registerClass({
     loadColor() {
         // Load last from json
 
-        this._file = Gio.file_new_for_path(ExtensionPath + '/settings.json');
+        this._file = Gio.file_new_for_path(`${ExtensionPath}/settings.json`);
         if (this._file.query_exists(null)) {
             var flag;
             var data;
@@ -105,11 +97,9 @@ const ColorTinter = GObject.registerClass({
 
             if (flag) {
                 const ByteArray = imports.byteArray;
-                let prepData = (data instanceof Uint8Array) ? ByteArray.toString(data) : data.toString();
+                let prepData = data instanceof Uint8Array ? ByteArray.toString(data) : data.toString();
                 overlay_color = JSON.parse(prepData);
             }
-
-
         }
     }
 
@@ -117,42 +107,33 @@ const ColorTinter = GObject.registerClass({
 
     // Save Color
     saveColor() {
-        this._file = Gio.file_new_for_path(ExtensionPath + '/settings.json');
+        this._file = Gio.file_new_for_path(`${ExtensionPath}/settings.json`);
         this._file.replace_contents(JSON.stringify(overlay_color), null, false, 0, null);
     }
 
 
     // enable
     start_up() {
-        overlay_active = false; ;
+        overlay_active = false;
         this.loadColor();
         this.createOverlay();
-        if (settings.get_boolean('autostart')) {
-            this.show()
-        }
-
+        if (settings.get_boolean('autostart'))
+            this.show();
     }
 
 
 
     // disable
     stop_now() {
-
-        if (overlay_active == true) {
+        if (overlay_active == true)
             Main.uiGroup.remove_actor(overlay);
-        }
+
         overlay.destroy();
         overlay = null;
-
     }
+});
 
-
-})
-
-const MenuButton = GObject.registerClass ({
-    GTypeName: 'MenuButton',}, class MenuButton extends PanelMenu.Button {
-
-
+const MenuButton = GObject.registerClass({GTypeName: 'MenuButton'}, class MenuButton extends PanelMenu.Button {
     // Constructor
     _init() {
         super._init(1, 'ColorTintMenu', false);
@@ -160,15 +141,15 @@ const MenuButton = GObject.registerClass ({
         let icon = new St.Icon({icon_name: 'applications-graphics-symbolic', style_class: 'system-status-icon'});
 
         // We add the icon
-        let iconName = ''
-        if (settings.get_boolean('monochrome-icon')) {
+        let iconName = '';
+        if (settings.get_boolean('monochrome-icon'))
             iconName = 'icon_mono.svg';
 
-        } else {
+        else
             iconName = 'icon.svg';
-        }
+
         icon.gicon = Gio.icon_new_for_string(`${Me.path}/${iconName}`);
-        icon.set_icon_size(20)
+        icon.set_icon_size(20);
         box.add(icon);
 
         // We add the box to the button
@@ -200,11 +181,10 @@ const MenuButton = GObject.registerClass ({
 
         offswitch.connect('toggled', (object, value) => {
             // We will just change the text content of the label
-            if (value) {
-                tinter.show()
-            } else {
-                tinter.hide()
-            }
+            if (value)
+                tinter.show();
+            else
+                tinter.hide();
         });
 
 
@@ -214,21 +194,21 @@ const MenuButton = GObject.registerClass ({
         this._alphaSlider = new Slider.Slider(0);
 
 
-        let _redLabel = new St.Label({text: "R"});
+        let _redLabel = new St.Label({text: 'R'});
         this._redSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._redSliderContainer.add_child(_redLabel);
         this._redSliderContainer.add_child(this._redSlider);
         this.menu.addMenuItem(this._redSliderContainer);
 
 
-        let _greenLabel = new St.Label({text: "G"});
+        let _greenLabel = new St.Label({text: 'G'});
         this._greenSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._greenSliderContainer.add_child(_greenLabel);
         this._greenSliderContainer.add_child(this._greenSlider);
         this.menu.addMenuItem(this._greenSliderContainer);
 
 
-        let _blueLabel = new St.Label({text: "B"});
+        let _blueLabel = new St.Label({text: 'B'});
         this._blueSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._blueSliderContainer.add_child(_blueLabel);
         this._blueSliderContainer.add_child(this._blueSlider);
@@ -236,7 +216,7 @@ const MenuButton = GObject.registerClass ({
 
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
 
-        let _alphaLabel = new St.Label({text: "Alpha"});
+        let _alphaLabel = new St.Label({text: 'Alpha'});
         this._alphaSliderContainer = new PopupMenu.PopupBaseMenuItem({activate: false});
         this._alphaSliderContainer.add_child(_alphaLabel);
         this._alphaSliderContainer.add_child(this._alphaSlider);
@@ -248,51 +228,51 @@ const MenuButton = GObject.registerClass ({
         this._alphaSlider.connect('notify::value', this._setColors.bind(this));
 
         this._getColors();
-
-
     }
+
     _getColors() {
-
-
-        this._redSlider._setCurrentValue(this._redSlider, overlay_color["red"] / 255)
-        this._blueSlider._setCurrentValue(this._blueSlider, overlay_color["blue"] / 255)
-        this._greenSlider._setCurrentValue(this._greenSlider, overlay_color["green"] / 255)
-        this._alphaSlider._setCurrentValue(this._alphaSlider, overlay_color["alpha"] / 255)
-
-
+        this._redSlider._setCurrentValue(this._redSlider, overlay_color['red'] / 255);
+        this._blueSlider._setCurrentValue(this._blueSlider, overlay_color['blue'] / 255);
+        this._greenSlider._setCurrentValue(this._greenSlider, overlay_color['green'] / 255);
+        this._alphaSlider._setCurrentValue(this._alphaSlider, overlay_color['alpha'] / 255);
     }
-    _setColors() {
 
-        overlay_color["red"] = 255 * this._redSlider._getCurrentValue();
-        overlay_color["green"] = 255 * this._greenSlider._getCurrentValue();
-        overlay_color["blue"] = 255 * this._blueSlider._getCurrentValue();
-        overlay_color["alpha"] = 255 * this._alphaSlider._getCurrentValue();
+    _setColors() {
+        overlay_color['red'] = 255 * this._redSlider._getCurrentValue();
+        overlay_color['green'] = 255 * this._greenSlider._getCurrentValue();
+        overlay_color['blue'] = 255 * this._blueSlider._getCurrentValue();
+        overlay_color['alpha'] = 255 * this._alphaSlider._getCurrentValue();
 
         tinter.setOverlayColor();
     }
-
-})
-
+});
 
 
+
+/**
+ *
+ */
 function enable() {
-
     tinter = new ColorTinter();
     tinter.start_up();
     menu = new MenuButton();
-    Main.panel.addToStatusArea("Tint", menu, 0, "right");
-
+    Main.panel.addToStatusArea('Tint', menu, 0, 'right');
 }
 
+/**
+ *
+ */
 function disable() {
     tinter.stop_now();
     tinter = null;
     menu.destroy();
     menu = null;
-
 }
 
 
+/**
+ *
+ */
 function init() {
 
 

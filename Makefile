@@ -25,8 +25,8 @@ build: compile
 	cp CHANGELOG.md $(WORKING_DIR)
 	cp LICENSE $(WORKING_DIR)
 	cp README.md $(WORKING_DIR)
-# Remove compiled schemas
-	rm $(WORKING_DIR)schemas/*.compiled
+# Uncomment below line once Gnome 44 is oldest supported version
+#	rm $(WORKING_DIR)schemas/*.compiled
 # zip the package and place in the output directory
 	cd ./$(WORKING_DIR); zip -r ../$(OUTPUT_DIR)$(OUTPUT_FNAME) .
 # delete the working directory
@@ -36,6 +36,7 @@ build: compile
 install: build
 	rm -rf $(INSTALL_DIR)
 	unzip $(OUTPUT_DIR)$(OUTPUT_FNAME) -d $(INSTALL_DIR)
-	glib-compile-schemas $(INSTALL_DIR)/schemas/
+# Uncomment below line once Gnome 44 is oldest supported version
+# glib-compile-schemas $(INSTALL_DIR)/schemas/
 .PHONY:install
 # end
