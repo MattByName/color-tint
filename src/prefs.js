@@ -1,14 +1,21 @@
 'use strict';
 
-const { Adw, Gio, Gtk } = imports.gi;
+const {Adw, Gio, Gtk} = imports.gi;
 
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = ExtensionUtils.getCurrentExtension();
 
 
+/**
+ *
+ */
 function init() {
 }
 
+/**
+ *
+ * @param window
+ */
 function fillPreferencesWindow(window) {
     // Use the same GSettings schema as in `extension.js`
     const settings = ExtensionUtils.getSettings(
@@ -20,12 +27,12 @@ function fillPreferencesWindow(window) {
     page.add(group);
 
     // Create a new preferences row
-    const row = new Adw.ActionRow({ title: 'Overlay active on start' });
+    const row = new Adw.ActionRow({title: 'Overlay active on start'});
     group.add(row);
 
     // Create the switch and bind its value to the `autostart` key
     const toggle = new Gtk.Switch({
-        active: settings.get_boolean ('autostart'),
+        active: settings.get_boolean('autostart'),
         valign: Gtk.Align.CENTER,
     });
     settings.bind(
@@ -40,12 +47,12 @@ function fillPreferencesWindow(window) {
     row.activatable_widget = toggle;
 
     // Create a new preferences row
-    const row2 = new Adw.ActionRow({ title: 'Use monochrome system tray icon', subtitle: 'Changes take effect on restart of extension' });
+    const row2 = new Adw.ActionRow({title: 'Use monochrome system tray icon', subtitle: 'Changes take effect on restart of extension'});
     group.add(row2);
 
     // Create the switch and bind its value to the `monochrome` key
     const toggle2 = new Gtk.Switch({
-        active: settings.get_boolean ('monochrome-icon'),
+        active: settings.get_boolean('monochrome-icon'),
         valign: Gtk.Align.CENTER,
     });
     settings.bind(

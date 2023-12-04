@@ -7,9 +7,5 @@
   "donations": {
     "kofi": "mattbyname"
   },
-  "shell-version": [
-    "42",
-    "43",
-    "44"
-  ]
+  "shell-version": ["45"]
 }

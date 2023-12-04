@@ -1,11 +1,15 @@
-const St = imports.gi.St;
-const Clutter = imports.gi.Clutter;
-const Main = imports.ui.main;
-const Gio = imports.gi.Gio;
-const GObject = imports.gi.GObject;
-const PopupMenu = imports.ui.popupMenu;
-const PanelMenu = imports.ui.panelMenu;
-const Slider = imports.ui.slider;
+import * as St from "gi://St";
+import * as Clutter from "gi://Clutter";
+import * as Gio from "gi://Gio";
+import * as GObject from "gi://GObject";
+import * as Main from "resource:///org/gnome/shell/ui/main.js";
+import * as PopupMenu from "resource:///org/gnome/shell/ui/popupMenu.js";
+import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
+import * as Slider from "resource:///org/gnome/shell/ui/slider.js";
+
+import * as ExtensionUtils from "resource:///org/gnome/shell/misc/extensionUtils.js";
+const Me = ExtensionUtils.getCurrentExtension();
+let overlay_active = false;
 let tinter = null;
 let menu = null;
 let overlay = null;
@@ -16,12 +20,6 @@ let overlay_color = {
   blue: 20,
   alpha: 80,
 };
-
-let overlay_active = false;
-const ExtensionSystem = imports.ui.extensionSystem;
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-const ShellVersion = imports.misc.config.PACKAGE_VERSION.split(".");
 let settings = null;
 let ExtensionPath;
 ExtensionPath = Me.path;
@@ -113,8 +111,9 @@ const ColorTinter = GObject.registerClass(
       overlay_active = false;
       this.loadColor();
       this.createOverlay();
-      if (settings instanceof Gio.Settings)
+      if (settings instanceof Gio.Settings) {
         if (settings.get_boolean("autostart")) this.show();
+      }
     }
 
     // disable
@@ -144,7 +143,9 @@ const MenuButton = GObject.registerClass(
       if (settings instanceof Gio.Settings) {
         if (settings.get_boolean("monochrome-icon")) iconName = "icon_mono.svg";
         else iconName = "icon.svg";
-      } else iconName = "icon_mono.svg";
+      } else {
+        iconName = "icon_mono.svg";
+      }
 
       icon.gicon = Gio.icon_new_for_string(`${Me.path}/${iconName}`);
       icon.set_icon_size(20);
@@ -269,10 +270,11 @@ function enable() {
   tinter.start_up();
   menu = new MenuButton();
   Main.panel.addToStatusArea("Tint", menu, 0, "right");
-  if (settings === null)
+  if (settings === null) {
     settings = ExtensionUtils.getSettings(
       "org.gnome.shell.extensions.colortint"
     );
+  }
 }
 
 /**
