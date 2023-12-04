@@ -27,9 +27,9 @@ life, I will update the table below to show which version of ColorTint was last 
 
 | GNOME Version | ColorTint Version                                                      | GNOME Extensions Site Version |
 | :------------ | :--------------------------------------------------------------------- | :---------------------------- |
-| 44            | [latest](https://github.com/MattByName/color-tint/releases/latest)     |                               |
-| 43            | [latest](https://github.com/MattByName/color-tint/releases/latest)     |                               |
-| 42            | [latest](https://github.com/MattByName/color-tint/releases/latest)     |                               |
+| 44            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 19                            |
+| 43            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 19                            |
+| 42            | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 19                            |
 | 41            | [v2.2.2](https://github.com/MattByName/color-tint/releases/tag/v2.2.2) | 14                            |
 | 40            | [v2.2.2](https://github.com/MattByName/color-tint/releases/tag/v2.2.2) | 14                            |
 | 3.38          | [v2.2.2](https://github.com/MattByName/color-tint/releases/tag/v2.2.2) | 14                            |
