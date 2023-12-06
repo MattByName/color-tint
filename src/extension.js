@@ -7,9 +7,7 @@ import * as PopupMenu from "resource:///org/gnome/shell/ui/popupMenu.js";
 import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 import * as Slider from "resource:///org/gnome/shell/ui/slider.js";
 
-const Me = ExtensionUtils.getCurrentExtension();
 let overlay_active = false;
-let tinter = null;
 let menu = null;
 let overlay = null;
 
@@ -19,8 +17,6 @@ let overlay_color = {
   blue: 20,
   alpha: 80,
 };
-let ExtensionPath;
-ExtensionPath = Me.path;
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 export default class ColorTinter extends Extension {
   /**
@@ -116,7 +112,7 @@ export default class ColorTinter extends Extension {
   loadColor() {
     // Load last from json
 
-    this._file = Gio.file_new_for_path(`${ExtensionPath}/settings.json`);
+    this._file = Gio.file_new_for_path(`${this.metadata.path}/settings.json`);
     if (this._file.query_exists(null)) {
       var flag;
       var data;
@@ -135,7 +131,7 @@ export default class ColorTinter extends Extension {
 
   // Save Color
   saveColor() {
-    this._file = Gio.file_new_for_path(`${ExtensionPath}/settings.json`);
+    this._file = Gio.file_new_for_path(`${this.metadata.path}/settings.json`);
     this._file.replace_contents(
       JSON.stringify(overlay_color),
       null,
@@ -178,7 +174,7 @@ const MenuButton = GObject.registerClass(
         iconName = "icon_mono.svg";
       else iconName = "icon.svg";
 
-      icon.gicon = Gio.icon_new_for_string(`${Me.path}/${iconName}`);
+      icon.gicon = Gio.icon_new_for_string(`${this.metadata.path}/${iconName}`);
       icon.set_icon_size(20);
       box.add(icon);
 
