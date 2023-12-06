@@ -39,4 +39,8 @@ install: build
 # Uncomment below line once Gnome 44 is oldest supported version
 # glib-compile-schemas $(INSTALL_DIR)/schemas/
 .PHONY:install
+
+test: install
+	./nested-session.sh
+.PHONY:install
 # end

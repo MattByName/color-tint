@@ -7,6 +7,12 @@
 - New overlay code to fix [Issue 20](https://github.com/MattByName/color-tint/issues/20)
 - No longer shipping compiled schemas, once Gnome 44 becomes oldest supported release
 
+## 2.3.2
+
+### Fixed
+
+- GNOME 45 support
+
 ## 2.3.1
 
 ### Fixed

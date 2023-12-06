@@ -1,68 +1,45 @@
-import * as St from "gi://St";
-import * as Clutter from "gi://Clutter";
-import * as Gio from "gi://Gio";
-import * as GObject from "gi://GObject";
+import St from "gi://St";
+import Clutter from "gi://Clutter";
+import Gio from "gi://Gio";
+import GObject from "gi://GObject";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
 import * as PopupMenu from "resource:///org/gnome/shell/ui/popupMenu.js";
 import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 import * as Slider from "resource:///org/gnome/shell/ui/slider.js";
-
+import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 let overlay_active = false;
 let menu = null;
 let overlay = null;
-
+let settings = null;
+let metadata = null;
+let tinter = null;
 let overlay_color = {
   red: 20,
   green: 20,
   blue: 20,
   alpha: 80,
 };
-import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 export default class ColorTinter extends Extension {
-  /**
-   * This class is constructed once when your extension is loaded, not
-   * enabled. This is a good time to setup translations or anything else you
-   * only do once.
-   *
-   * You MUST NOT make any changes to GNOME Shell, connect any signals or add
-   * any event sources here.
-   *
-   * @param {ExtensionMeta} metadata - An extension meta object
-   */
   constructor(metadata) {
     super(metadata);
-
-    console.debug(`constructing ${this.metadata.name}`);
   }
 
-  /**
-   * This function is called when your extension is enabled, which could be
-   * done in GNOME Extensions, when you log in or when the screen is unlocked.
-   *
-   * This is when you should setup any UI for your extension, change existing
-   * widgets, connect signals or modify GNOME Shell's behavior.
-   */
   enable() {
-    console.debug(`enabling ${this.metadata.name}`);
+    tinter = this;
+    settings = this.getSettings();
+    metadata = this.metadata;
     this.start_up();
     menu = new MenuButton();
     Main.panel.addToStatusArea("Tint", menu, 0, "right");
-    this._settings = this.getSettings();
   }
 
-  /**
-   * This function is called when your extension is uninstalled, disabled in
-   * GNOME Extensions or when the screen locks.
-   *
-   * Anything you created, modified or setup in enable() MUST be undone here.
-   * Not doing so is the most common reason extensions are rejected in review!
-   */
   disable() {
-    console.debug(`disabling ${this.metadata.name}`);
     this.stop_now();
     menu.destroy();
     menu = null;
-    this._settings = null;
+    settings = null;
+    metadata = null;
+    tinter = null;
   }
 
   createOverlay() {
@@ -112,7 +89,7 @@ export default class ColorTinter extends Extension {
   loadColor() {
     // Load last from json
 
-    this._file = Gio.file_new_for_path(`${this.metadata.path}/settings.json`);
+    this._file = Gio.file_new_for_path(`${metadata.path}/settings.json`);
     if (this._file.query_exists(null)) {
       var flag;
       var data;
@@ -131,7 +108,7 @@ export default class ColorTinter extends Extension {
 
   // Save Color
   saveColor() {
-    this._file = Gio.file_new_for_path(`${this.metadata.path}/settings.json`);
+    this._file = Gio.file_new_for_path(`${metadata.path}/settings.json`);
     this._file.replace_contents(
       JSON.stringify(overlay_color),
       null,
@@ -145,7 +122,7 @@ export default class ColorTinter extends Extension {
     overlay_active = false;
     this.loadColor();
     this.createOverlay();
-    if (this._settings.get_boolean("autostart")) this.show();
+    if (settings.get_boolean("autostart")) this.show();
   }
 
   stop_now() {
@@ -170,11 +147,11 @@ const MenuButton = GObject.registerClass(
 
       // We add the icon
       let iconName = "";
-      if (this._settings.get_boolean("monochrome-icon"))
-        iconName = "icon_mono.svg";
+
+      if (settings.get_boolean("monochrome-icon")) iconName = "icon_mono.svg";
       else iconName = "icon.svg";
 
-      icon.gicon = Gio.icon_new_for_string(`${this.metadata.path}/${iconName}`);
+      icon.gicon = Gio.icon_new_for_string(`${metadata.path}/${iconName}`);
       icon.set_icon_size(20);
       box.add(icon);
 
