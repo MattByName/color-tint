@@ -19,7 +19,6 @@ let overlay_color = {
   blue: 20,
   alpha: 80,
 };
-let settings = null;
 let ExtensionPath;
 ExtensionPath = Me.path;
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
@@ -52,11 +51,7 @@ export default class ColorTinter extends Extension {
     this.start_up();
     menu = new MenuButton();
     Main.panel.addToStatusArea("Tint", menu, 0, "right");
-    if (settings === null) {
-      settings = ExtensionUtils.getSettings(
-        "org.gnome.shell.extensions.colortint"
-      );
-    }
+    this._settings = this.getSettings();
   }
 
   /**
@@ -71,7 +66,7 @@ export default class ColorTinter extends Extension {
     this.stop_now();
     menu.destroy();
     menu = null;
-    settings = null;
+    this._settings = null;
   }
 
   createOverlay() {
@@ -154,9 +149,7 @@ export default class ColorTinter extends Extension {
     overlay_active = false;
     this.loadColor();
     this.createOverlay();
-    if (settings instanceof Gio.Settings) {
-      if (settings.get_boolean("autostart")) this.show();
-    }
+    if (this._settings.get_boolean("autostart")) this.show();
   }
 
   stop_now() {
@@ -181,12 +174,9 @@ const MenuButton = GObject.registerClass(
 
       // We add the icon
       let iconName = "";
-      if (settings instanceof Gio.Settings) {
-        if (settings.get_boolean("monochrome-icon")) iconName = "icon_mono.svg";
-        else iconName = "icon.svg";
-      } else {
+      if (this._settings.get_boolean("monochrome-icon"))
         iconName = "icon_mono.svg";
-      }
+      else iconName = "icon.svg";
 
       icon.gicon = Gio.icon_new_for_string(`${Me.path}/${iconName}`);
       icon.set_icon_size(20);
