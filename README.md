@@ -39,7 +39,7 @@ slightly out of date compared to github.
 
 | GNOME Releases | ColorTint Releases                                                     | Extension Site version |
 | :------------- | :--------------------------------------------------------------------- | :--------------------- |
-| 45             | [latest](https://github.com/MattByName/color-tint/releases/latest)     | TBC                    |
+| 45             | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 21                     |
 | 44             | [v2.3.1](https://github.com/MattByName/color-tint/releases/tag/v2.3.1) | 19                     |
 | 43             | [v2.3.1](https://github.com/MattByName/color-tint/releases/tag/v2.3.1) | 19                     |
 | 42             | [v2.3.1](https://github.com/MattByName/color-tint/releases/tag/v2.3.1) | 19                     |
