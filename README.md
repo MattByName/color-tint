@@ -9,12 +9,15 @@ to help people with dyslexia, visual stress, scopic sensitivity, and related con
 
 If you use this extension, please consider starring it on GitHub to help me get a sense of the size of the userbase.
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E1CFXTK)
+## Support
 
+- [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E1CFXTK)
+- Bitccoin: 16uDRKJxmG6RxrArYFApYkAe1accQ64DVU
+- Ethereum: 0x1281b6DA86d05CC133e95D756c8d4503873dD25D
+  
 ### Links
 
 - [GitHub Repository](https://github.com/MattByName/color-tint)
-
 - [GNOME Extensions Page](https://extensions.gnome.org/extension/1789/colortint/)
 - [GitHub Releases](https://github.com/MattByName/color-tint/releases)
 
@@ -66,8 +69,8 @@ slightly out of date compared to github.
 
 Please do contribute if you want to change something or help out with one of the issues.
 
-## Support, Feature Requests and Bug Reports
+## Feature Requests and Bug Reports
 
-Please [raise an issue](https://github.com/MattByName/color-tint/issues/new) or raise a pull
+Please [raise an issue](https://github.com/MattByName/color-tint/issues/new) or make a pull
 request. Alternatively, you can contact me via matrix at
 [@mattbyname:matrix.org](https://matrix.to/#/@mattbyname:matrix.org)
