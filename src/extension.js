@@ -96,11 +96,9 @@ export default class ColorTinter extends Extension {
       [flag, data] = this._file.load_contents(null);
 
       if (flag) {
-        const ByteArray = imports.byteArray;
+        const TexDec = new TextDecoder();
         let prepData =
-          data instanceof Uint8Array
-            ? ByteArray.toString(data)
-            : data.toString();
+          data instanceof Uint8Array ? TexDec.decode(data) : data.toString();
         overlay_color = JSON.parse(prepData);
       }
     }

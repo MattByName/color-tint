@@ -9,7 +9,7 @@ import {
 
 export default class ColorTintPreferences extends ExtensionPreferences {
   fillPreferencesWindow(window) {
-    window._settings = this.getSettings("org.gnome.shell.extensions.colortint");
+    window._settings = this.getSettings();
     // Create a preferences page and group
     const page = new Adw.PreferencesPage();
     const group = new Adw.PreferencesGroup();
