@@ -1,3 +1,4 @@
+/** @module ColorTint */
 import St from "gi://St";
 import Clutter from "gi://Clutter";
 import Gio from "gi://Gio";
@@ -7,32 +8,74 @@ import * as PopupMenu from "resource:///org/gnome/shell/ui/popupMenu.js";
 import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 import * as Slider from "resource:///org/gnome/shell/ui/slider.js";
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
+/**
+ * Tracks whether or not the overlay is currently being drawn.
+ * @type {boolean}
+ * */
 let overlay_active = false;
-let menu = null;
 let overlay = null;
 let settings = null;
 let metadata = null;
 let tinter = null;
+/**
+ * Record of the color to be stored or applied.
+ * @typedef {Object} overlay_color - The color to be stored or applied to the overlay
+ * @property {number} red - the RGBA red value 0-255
+ * @property {number} green - the RGBA green value 0-255
+ * @property {number} blue - the RGBA blue value 0-255
+ * @property {number} alpha - the RGBA alpha value 0-255
+ */
 let overlay_color = {
   red: 20,
   green: 20,
   blue: 20,
   alpha: 80,
 };
+/** Public class defining the extension
+ * @public*/
 export default class ColorTinter extends Extension {
+  /**
+   * This class is constructed once when your extension is loaded, not
+   * enabled. This is a good time to setup translations or anything else you
+   * only do once.
+   *
+   * You MUST NOT make any changes to GNOME Shell, connect any signals or add
+   * any event sources here.
+   *
+   * @param {ExtensionMeta} metadata - An extension meta object
+   */
   constructor(metadata) {
     super(metadata);
   }
 
+  /**
+   * This will hold MenuButton, the PanelMenuButton that will place the interface
+   * in the system tray
+   * @type {MenuButton}*/
+  menu = null;
+
+  /**
+   * This function is called when your extension is enabled, which could be
+   * done in GNOME Extensions, when you log in or when the screen is unlocked.
+   *
+   * This is when you should setup any UI for your extension, change existing
+   * widgets, connect signals or modify GNOME Shell's behavior.
+   */
   enable() {
     tinter = this;
     settings = this.getSettings();
     metadata = this.metadata;
     this.start_up();
-    menu = new MenuButton();
+    this.menu = new MenuButton();
     Main.panel.addToStatusArea("Tint", menu, 0, "right");
   }
-
+  /**
+   * This function is called when your extension is uninstalled, disabled in
+   * GNOME Extensions or when the screen locks.
+   *
+   * Anything you created, modified or setup in enable() MUST be undone here.
+   * Not doing so is the most common reason extensions are rejected in review!
+   */
   disable() {
     this.stop_now();
     menu.destroy();
@@ -42,14 +85,13 @@ export default class ColorTinter extends Extension {
     tinter = null;
   }
 
-  createOverlay() {
-    /*
+  /**
         Set the overlay to 100x the primary monitor's width and height. Set the overlay x and y to 0.
         This is hacky, but should cover most multi-setups.
         What should be done, is to iterate over all monitors, and create a seperate overlay for each that fills each
         according to its dimensions. If anyone wants to refactor this in that way, please do.
          */
-
+  createOverlay() {
     let monitor = Main.layoutManager.primaryMonitor;
     overlay = new St.Bin({ reactive: false });
     overlay.set_size(monitor.width * 100, monitor.height * 100);
@@ -61,7 +103,8 @@ export default class ColorTinter extends Extension {
     this.setOverlayColor();
   }
 
-  // Update color of Overlay
+  /**
+   * Apply the value stored in colortint#color */
   setOverlayColor() {
     var color = new Clutter.Color({
       red: overlay_color["red"],
@@ -112,7 +155,7 @@ export default class ColorTinter extends Extension {
       null,
       false,
       0,
-      null
+      null,
     );
   }
 
@@ -130,20 +173,36 @@ export default class ColorTinter extends Extension {
     overlay = null;
   }
 }
-
+/**
+ * PanelMenu button extended for the extension UI
+ * @extends {PanelMenu.Button}
+ * @type {GObject.Class}*/
 const MenuButton = GObject.registerClass(
   { GTypeName: "MenuButton" },
+  /**
+   * The systemtray button
+   * @extends {PanelMenu.Button} */
   class MenuButton extends PanelMenu.Button {
-    // Constructor
+    /**
+     * Initialises the widget.
+     * */
     _init() {
       super._init(1, "ColorTintMenu", false);
+      /**
+       * Layout for the menu
+       * @type {Object}*/
       let box = new St.BoxLayout();
+      /**
+       * Icon graphic for the menu, will appear in system tray
+       * @type {Object}*/
       let icon = new St.Icon({
         icon_name: "applications-graphics-symbolic",
         style_class: "system-status-icon",
       });
 
-      // We add the icon
+      /**
+       * Stores the filename of the menu icon
+       * @type {string} */
       let iconName = "";
 
       if (settings.get_boolean("monochrome-icon")) iconName = "icon_mono.svg";
@@ -157,21 +216,11 @@ const MenuButton = GObject.registerClass(
       // It will be showed in the Top Panel
       this.add_child(box);
 
-      let popupMenuExpander = new PopupMenu.PopupSubMenuMenuItem(
-        "PopupSubMenuMenuItem"
-      );
-
-      // This is an example of PopupMenuItem, a menu item. We will use this to add as a submenu
-      let submenu = new PopupMenu.PopupMenuItem("PopupMenuItem");
-
-      // A new label
-      let label = new St.Label({ text: "Item 1" });
-
-      // Add the label and submenu to the menu expander
-      popupMenuExpander.menu.addMenuItem(submenu);
-      popupMenuExpander.menu.box.add(label);
-
       // Other standard menu items
+      /**
+       * The on/off toggle. Name 'tint' will not be displayed due to icon. Pass
+       * {overlay_active} to determine if it should show on or off.
+       * @type {PopupMenu.PopupSwitchMenuItem}*/
       let offswitch = new PopupMenu.PopupSwitchMenuItem("Tint", overlay_active);
 
       // Assemble all menu items
@@ -237,19 +286,19 @@ const MenuButton = GObject.registerClass(
     _getColors() {
       this._redSlider._setCurrentValue(
         this._redSlider,
-        overlay_color["red"] / 255
+        overlay_color["red"] / 255,
       );
       this._blueSlider._setCurrentValue(
         this._blueSlider,
-        overlay_color["blue"] / 255
+        overlay_color["blue"] / 255,
       );
       this._greenSlider._setCurrentValue(
         this._greenSlider,
-        overlay_color["green"] / 255
+        overlay_color["green"] / 255,
       );
       this._alphaSlider._setCurrentValue(
         this._alphaSlider,
-        overlay_color["alpha"] / 255
+        overlay_color["alpha"] / 255,
       );
     }
 
@@ -261,5 +310,5 @@ const MenuButton = GObject.registerClass(
 
       tinter.setOverlayColor();
     }
-  }
+  },
 );

@@ -7,3 +7,4 @@ settings.json
 bin/
 tmp/
 *.log
+out/
