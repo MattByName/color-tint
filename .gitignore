@@ -6,3 +6,4 @@ settings.json
 *.zip
 bin/
 tmp/
+*.log
