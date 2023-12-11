@@ -5,7 +5,9 @@
   "url": "https://github.com/MattByName/color-tint",
   "settings-schema": "org.gnome.shell.extensions.colortint",
   "donations": {
-    "kofi": "mattbyname"
+    "kofi": "mattbyname",
+    "github": "mattbyname",
+    "liberapay": "mattbyname"
   },
   "shell-version": ["45"]
 }

@@ -8,7 +8,7 @@ ColorTint is a Gnome extension that draws a translucent coloured overlay over yo
 to help people with dyslexia, visual stress, scopic sensitivity, and related conditions.
 
 If you use this extension, please consider starring it on GitHub to help me get a sense of the size of the userbase.
-  
+
 ### Links
 
 - [GitHub Repository](https://github.com/MattByName/color-tint)
@@ -38,11 +38,17 @@ can also clone this repository and use the terminal command `make install` from 
 directory.
 
 ## Support
+
 I maintain this extension in my spare time for my own use and because I believe it's an important accessibility feature. If you want to make a small coffee- or beer-sized donation, here are some ways to do so. Please don't send anything larger, other projects need it more.
-- [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E1CFXTK)
+
+- [ko-fi](https://ko-fi.com/E1E1CFXTK)
+- [Github Sponsor](https://github.com/sponsors/MattByName)
+- [LiberaPay](https://liberapay.com/mattbyname/)
 - Bitcoin: 16uDRKJxmG6RxrArYFApYkAe1accQ64DVU
 - Ethereum: 0x1281b6DA86d05CC133e95D756c8d4503873dD25D
+
 ## Contributing
+
 Please do contribute if you want to change something or help out with one of the issues.
 
 ## Feature Requests and Bug Reports
