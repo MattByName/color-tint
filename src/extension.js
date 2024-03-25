@@ -155,7 +155,7 @@ const MenuButton = GObject.registerClass(
 
       icon.gicon = Gio.icon_new_for_string(`${metadata.path}/${iconName}`);
       icon.set_icon_size(20);
-      box.add(icon);
+      box.add_child(icon);
 
       // We add the box to the button
       // It will be showed in the Top Panel
