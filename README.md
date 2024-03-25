@@ -4,7 +4,7 @@
 
 ## About
 
-ColorTint is a Gnome extension that draws a translucent coloured overlay over your desktop. This is
+ColorTint is a GNOME extension that draws a translucent coloured overlay over your desktop. This is
 to help people with dyslexia, visual stress, scopic sensitivity, and related conditions.
 
 If you use this extension, please consider starring it on GitHub to help me get a sense of the size of the userbase.
