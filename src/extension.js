@@ -173,7 +173,7 @@ const MenuButton = GObject.registerClass(
 
       // Add the label and submenu to the menu expander
       popupMenuExpander.menu.addMenuItem(submenu);
-      popupMenuExpander.menu.box.add(label);
+      popupMenuExpander.menu.box.add_child(label);
 
       // Other standard menu items
       let offswitch = new PopupMenu.PopupSwitchMenuItem("Tint", overlay_active);
