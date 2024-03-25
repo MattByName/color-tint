@@ -76,12 +76,12 @@ export default class ColorTinter extends Extension {
   // Hide Overlay
   hide() {
     overlay_active = false;
-    Main.uiGroup.remove_actor(overlay);
+    Main.uiGroup.remove_child(overlay);
   }
 
   // Show Overlay
   show() {
-    Main.uiGroup.add_actor(overlay);
+    Main.uiGroup.add_child(overlay);
     overlay_active = true;
   }
 
@@ -124,7 +124,11 @@ export default class ColorTinter extends Extension {
   }
 
   stop_now() {
-    if (overlay_active == true) Main.uiGroup.remove_actor(overlay);
+      console.log('logging works');
+      if (Clutter.Container === undefined) {
+console.log('No Clutter Container');
+} else {console.log('There is a clutter container')};
+    if (overlay_active == true) Main.uiGroup.remove_child(overlay);
 
     overlay.destroy();
     overlay = null;
