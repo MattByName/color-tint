@@ -76,12 +76,12 @@ export default class ColorTinter extends Extension {
   // Hide Overlay
   hide() {
     overlay_active = false;
-    Main.uiGroup.remove_actor(overlay);
+    Main.uiGroup.remove_child(overlay);
   }
 
   // Show Overlay
   show() {
-    Main.uiGroup.add_actor(overlay);
+    Main.uiGroup.add_child(overlay);
     overlay_active = true;
   }
 
@@ -120,11 +120,8 @@ export default class ColorTinter extends Extension {
     overlay_active = false;
     this.loadColor();
     this.createOverlay();
-    if (settings.get_boolean("autostart")) this.show();
-  }
-
-  stop_now() {
-    if (overlay_active == true) Main.uiGroup.remove_actor(overlay);
+ else {console.log('There is a clutter container')};
+    if (overlay_active == true) Main.uiGroup.remove_child(overlay);
 
     overlay.destroy();
     overlay = null;
@@ -151,7 +148,7 @@ const MenuButton = GObject.registerClass(
 
       icon.gicon = Gio.icon_new_for_string(`${metadata.path}/${iconName}`);
       icon.set_icon_size(20);
-      box.add(icon);
+      box.add_child(icon);
 
       // We add the box to the button
       // It will be showed in the Top Panel
@@ -169,7 +166,7 @@ const MenuButton = GObject.registerClass(
 
       // Add the label and submenu to the menu expander
       popupMenuExpander.menu.addMenuItem(submenu);
-      popupMenuExpander.menu.box.add(label);
+      popupMenuExpander.menu.box.add_child(label);
 
       // Other standard menu items
       let offswitch = new PopupMenu.PopupSwitchMenuItem("Tint", overlay_active);

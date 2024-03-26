@@ -16,6 +16,11 @@
 - Changelog will now show the date of release.
 ### Security
 
+## 2.3.4 - 2024-03-26
+
+### Added
+- GNOME 46 Support
+
 ## 2.3.2 - 2023-12-08
 
 ### Added
