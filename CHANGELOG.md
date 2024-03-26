@@ -1,17 +1,38 @@
-# Color Tint Changelog
+# ColorTint Changelog
 
-# Upcoming
+## Upcoming Features 
 
-## Fixes
-
+### Added
 - New overlay code to fix [Issue 20](https://github.com/MattByName/color-tint/issues/20)
-- No longer shipping compiled schemas, once Gnome 44 becomes oldest supported release
 
-## 2.3.2
+### Changed
+
+### Deprecated
+- Compiled schemas in package
+
+### Removed
 
 ### Fixed
+- Changelog will now show the date of release.
+### Security
 
-- GNOME 45 support
+## 2.3.4 - 2024-03-26
+
+### Added
+- GNOME 46 Support
+
+## 2.3.2 - 2023-12-08
+
+### Added
+- GNOME 45 Support
+
+### Changed
+- Imports now use ES modules
+
+### Removed
+
+- GNOME 44 and older will not be supported going forward. See table in the [Readme](./README.md)
+  for legacy compatibility.
 
 ## 2.3.1
 

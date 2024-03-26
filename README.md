@@ -4,7 +4,7 @@
 
 ## About
 
-ColorTint is a Gnome extension that draws a translucent coloured overlay over your desktop. This is
+ColorTint is a GNOME extension that draws a translucent coloured overlay over your desktop. This is
 to help people with dyslexia, visual stress, scopic sensitivity, and related conditions.
 
 If you use this extension, please consider starring it on GitHub to help me get a sense of the size of the userbase.
@@ -40,6 +40,7 @@ directory.
 ## Support
 
 I maintain this extension in my spare time for my own use and because I believe it's an important accessibility feature. If you want to make a small coffee- or beer-sized donation, here are some ways to do so. Please don't send anything larger, other projects need it more.
+<<<<<<< HEAD
 
 - [ko-fi](https://ko-fi.com/E1E1CFXTK)
 - [Github Sponsor](https://github.com/sponsors/MattByName)
@@ -47,6 +48,9 @@ I maintain this extension in my spare time for my own use and because I believe 
 - Bitcoin: 16uDRKJxmG6RxrArYFApYkAe1accQ64DVU
 - Ethereum: 0x1281b6DA86d05CC133e95D756c8d4503873dD25D
 
+=======
+- [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/E1E1CFXTK)
+>>>>>>> develop
 ## Contributing
 
 Please do contribute if you want to change something or help out with one of the issues.
@@ -68,7 +72,8 @@ slightly out of date compared to github.
 
 | GNOME Releases | ColorTint Releases                                                     | Extension Site version |
 | :------------- | :--------------------------------------------------------------------- | :--------------------- |
-| 45             | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 21                     |
+| 46             | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 22                     |
+| 45             | [latest](https://github.com/MattByName/color-tint/releases/latest)     | 22                     |
 | 44             | [v2.3.1](https://github.com/MattByName/color-tint/releases/tag/v2.3.1) | 19                     |
 | 43             | [v2.3.1](https://github.com/MattByName/color-tint/releases/tag/v2.3.1) | 19                     |
 | 42             | [v2.3.1](https://github.com/MattByName/color-tint/releases/tag/v2.3.1) | 19                     |
