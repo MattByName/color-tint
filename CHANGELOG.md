@@ -1,26 +1,14 @@
 # ColorTint Changelog
 
-## Upcoming Features 
-
-### Added
-- New overlay code to fix [Issue 20](https://github.com/MattByName/color-tint/issues/20)
-
-### Changed
-
-### Deprecated
-- Compiled schemas in package
-
-### Removed
-
+## 2.3.5 - 2024-03-27
 ### Fixed
-- Changelog will now show the date of release.
-### Security
-
+- A bug caused by accidentally deleting lines of code has been repaired
 ## 2.3.4 - 2024-03-26
 
 ### Added
 - GNOME 46 Support
-
+### Removed
+- Clutter.Container usage
 ## 2.3.2 - 2023-12-08
 
 ### Added
