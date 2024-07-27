@@ -120,9 +120,9 @@ export default class ColorTinter extends Extension {
     overlay_active = false;
     this.loadColor();
     this.createOverlay();
- else {console.log('There is a clutter container')};
+}
+   stop_now() {
     if (overlay_active == true) Main.uiGroup.remove_child(overlay);
-
     overlay.destroy();
     overlay = null;
   }
