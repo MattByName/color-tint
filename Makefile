@@ -31,16 +31,16 @@ build: compile
 	cd ./$(WORKING_DIR); zip -r ../$(OUTPUT_DIR)$(OUTPUT_FNAME) .
 # delete the working directory
 	rm -rf $(WORKING_DIR)
-.PHONY:build
+.PHONY: build
 
 install: build
 	rm -rf $(INSTALL_DIR)
 	unzip $(OUTPUT_DIR)$(OUTPUT_FNAME) -d $(INSTALL_DIR)
 # Uncomment below line once Gnome 44 is oldest supported version
 # glib-compile-schemas $(INSTALL_DIR)/schemas/
-.PHONY:install
+.PHONY: install
 
 test: install
 	./nested-session.sh
-.PHONY:install
+.PHONY:test
 # end
