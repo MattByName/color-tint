@@ -1,5 +1,7 @@
 # ColorTint Changelog
-
+## 2.3.6 - 2024-08-02
+### Fixed
+- Corrected issue where overlay was not being drawn over some full screen apps
 ## 2.3.5 - 2024-03-27
 ### Fixed
 - A bug caused by accidentally deleting lines of code has been repaired
