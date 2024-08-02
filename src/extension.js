@@ -56,7 +56,7 @@ export default class ColorTinter extends Extension {
     overlay.opacity = 255;
     overlay.set_position(0, 0);
     // Arbitrary z position above everything else
-    overlay.set_z_position(1000);
+    overlay.set_z_position(650);
 
     this.setOverlayColor();
   }
