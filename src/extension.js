@@ -255,10 +255,17 @@ const MenuButton = GObject.registerClass(
       overlay_color["green"] = 255 * this._greenSlider._getCurrentValue();
       overlay_color["blue"] = 255 * this._blueSlider._getCurrentValue();
 
-       // overlay_color["alpha"] = 255 * this._alphaSlider._getCurrentValue();
+
+      if (settings.get_boolean("cap-alpha")) {
 
   let alpha = 255 * this._alphaSlider._getCurrentValue();
-	overlay_color["alpha"] = Math.min(alpha, 230);  // Caps alpha at 235
+	overlay_color["alpha"] = Math.min(alpha, 240);  // Caps alpha at 240
+}
+else {
+
+       overlay_color["alpha"] = 255 * this._alphaSlider._getCurrentValue();
+}
+;
 
       tinter.setOverlayColor();
     }

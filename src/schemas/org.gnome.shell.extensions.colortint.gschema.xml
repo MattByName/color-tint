@@ -12,5 +12,10 @@
       <summary>Show overlay on start</summary>
       <description>Whether the overlay should be visible when the extension starts</description>
     </key>
+    <key name="cap-alpha" type="b">
+      <default>true</default>
+      <summary>Cap maximum alpha</summary>
+      <description>Whether to cap the alpha/opacity at 240 out of 250 to prevent the overlay becoming opaque</description>
+    </key>
   </schema>
 </schemalist>

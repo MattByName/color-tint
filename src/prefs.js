@@ -36,6 +36,25 @@ export default class ColorTintPreferences extends ExtensionPreferences {
     row.activatable_widget = toggle;
 
     // Create a new preferences row
+    const row_alpha_cap = new Adw.ActionRow({ title: "Cap maximum alpha" });
+    group.add(row_alpha_cap);
+
+    // Create the switch and bind its value to the `autostart` key
+    const toggle_alpha_cap = new Gtk.Switch({
+      active: window._settings.get_boolean("cap-alpha"),
+      valign: Gtk.Align.CENTER,
+    });
+    window._settings.bind(
+      "cap-alpha",
+      toggle_alpha_cap,
+      "active",
+      Gio.SettingsBindFlags.DEFAULT
+    );
+
+    // Add the switch to the row
+    row_alpha_cap.add_suffix(toggle_alpha_cap);
+    row_alpha_cap.activatable_widget = toggle_alpha_cap;
+    // Create a new preferences row
     const row2 = new Adw.ActionRow({
       title: "Use monochrome system tray icon",
       subtitle: "Changes take effect on restart of extension",
