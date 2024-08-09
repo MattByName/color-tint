@@ -117,9 +117,14 @@ export default class ColorTinter extends Extension {
   }
 
   start_up() {
-    overlay_active = false;
+    overlay_active = settings.get_boolean("autostart"); 
     this.loadColor();
     this.createOverlay();
+     
+    if (settings.get_boolean("autostart")) {
+	tinter.show();
+    }
+
 }
    stop_now() {
     if (overlay_active == true) Main.uiGroup.remove_child(overlay);

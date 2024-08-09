@@ -1,4 +1,10 @@
 # ColorTint Changelog
+## 2.3.7 - 2024-08-09
+### Added
+- Maximum alpha option to prevent making the overlay opaque
+### Fixed
+- Removed broken fix from 2.3.6, it didn't work
+- Repaired show overlay on start functionality
 ## 2.3.6 - 2024-08-02
 ### Fixed
 - Corrected issue where overlay was not being drawn over some full screen apps
