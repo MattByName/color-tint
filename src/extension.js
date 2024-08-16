@@ -41,7 +41,14 @@ export default class ColorTinter extends Extension {
     metadata = null;
     tinter = null;
   }
-
+  _toggleGlobalEffect(name, effect, properties = {}) {
+        if (Main.uiGroup.get_effect(name)) {
+            Main.uiGroup.remove_effect_by_name(name);
+        } else {
+            let eff = new effect(properties);
+            Main.uiGroup.add_effect_with_name(name, eff);
+        }
+    }
   createOverlay() {
     /*
         Set the overlay to 100x the primary monitor's width and height. Set the overlay x and y to 0.
@@ -61,6 +68,7 @@ export default class ColorTinter extends Extension {
     this.setOverlayColor();
   }
 
+  
   // Update color of Overlay
   setOverlayColor() {
     var color = new Clutter.Color({
@@ -71,17 +79,35 @@ export default class ColorTinter extends Extension {
     });
     overlay.set_background_color(color);
     this.saveColor();
-  }
+      if (overlay_active)
+	  this.refreshColor();
+}
+    refreshColor() {
+	this.hide();
+	this.show();
+}
+    getOverlayColor() {
+
+    let color = new Clutter.Color({
+      red: overlay_color["red"],
+      green: overlay_color["green"],
+      blue: overlay_color["blue"],
+      alpha: overlay_color["alpha"],
+    });
+	return color;
+}
 
   // Hide Overlay
   hide() {
+      let effect = Clutter.ColorizeEffect;
+      this._toggleGlobalEffect('ColorTintOverlay', effect, {tint: this.getOverlayColor()}); 
     overlay_active = false;
-    Main.uiGroup.remove_child(overlay);
   }
 
   // Show Overlay
   show() {
-    Main.uiGroup.add_child(overlay);
+      let effect = Clutter.ColorizeEffect;
+      this._toggleGlobalEffect('ColorTintOverlay', effect, {tint: this.getOverlayColor()}); 
     overlay_active = true;
   }
 
