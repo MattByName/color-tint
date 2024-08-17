@@ -6,4 +6,4 @@ nwa:
   mute: false                       # Default: false (unspecified)
   path: ["src"] # Default: []
   skip: ["src/includes/*"]                   # Default: []
-  tmpl: "tools/nwa/gpl-license-template.txt"                   # Default: ""
+  tmpl: "nwa.txt"                   # Default: ""
