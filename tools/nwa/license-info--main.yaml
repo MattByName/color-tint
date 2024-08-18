@@ -2,8 +2,7 @@ nwa:
   cmd: "add"                        # Default: "add". Options: "add", "check", "remove", "update"
   holder: "Matthew Barnard"          # Default: "<COPYRIGHT HOLDER>"
   # year: "2077"                      # Default: Current Year
-  license: "GPLv3"                 # Default: "apache"
+  license: "GPL-3.0-or-later"                 # Default: "apache"
   mute: false                       # Default: false (unspecified)
   path: ["src"] # Default: []
-  skip: ["src/includes/*"]                   # Default: []
-  tmpl: "tools/nwa/gpl-license-template.txt"                   # Default: ""
+  skip: ["src/includes/**", "**.compiled", "**.svg", "**.png", "**.json"]                   # Default: []
