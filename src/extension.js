@@ -33,10 +33,10 @@ let settings = null;
 let metadata = null;
 let tinter = null;
 let overlay_color = {
-  red: 20,
-  green: 20,
-  blue: 20,
-  alpha: 80,
+  red: 0.20,
+  green: 0.20,
+  blue: 0.20,
+  alpha: 0.40,
 };
 export default class ColorTinter extends Extension {
   constructor(metadata) {
@@ -79,7 +79,7 @@ export default class ColorTinter extends Extension {
     let monitor = Main.layoutManager.primaryMonitor;
     overlay = new St.Bin({ reactive: false });
     overlay.set_size(monitor.width * 100, monitor.height * 100);
-    overlay.opacity = 255;
+    overlay.opacity = 30;
     overlay.set_position(0, 0);
     // Arbitrary z position above everything else
     overlay.set_z_position(650);
@@ -115,18 +115,28 @@ export default class ColorTinter extends Extension {
     });
 	return color;
 }
+    toggleEffect() {
+      let effect = ColorEffect;
+      this._toggleGlobalEffect('ColorTintOverlay', effect, {
+	  red: overlay_color['red'],
+	  blue: overlay_color['blue'],
+	  green: overlay_color['green'],
+	  blend: overlay_color['alpha'],
+	  
+
+}); 
+}
 
   // Hide Overlay
   hide() {
-      let effect = ColorEffect;
-      this._toggleGlobalEffect('ColorTintOverlay', effect, {tint: this.getOverlayColor()}); 
+      this.toggleEffect();
+
     overlay_active = false;
   }
 
   // Show Overlay
   show() {
-      let effect = ColorEffect;
-      this._toggleGlobalEffect('ColorTintOverlay', effect, {tint: this.getOverlayColor()}); 
+      this.toggleEffect();
     overlay_active = true;
   }
 
@@ -284,36 +294,36 @@ const MenuButton = GObject.registerClass(
     _getColors() {
       this._redSlider._setCurrentValue(
         this._redSlider,
-        overlay_color["red"] / 255
+        overlay_color["red"]
       );
       this._blueSlider._setCurrentValue(
         this._blueSlider,
-        overlay_color["blue"] / 255
+        overlay_color["blue"]
       );
       this._greenSlider._setCurrentValue(
         this._greenSlider,
-        overlay_color["green"] / 255
+        overlay_color["green"]
       );
       this._alphaSlider._setCurrentValue(
         this._alphaSlider,
-        overlay_color["alpha"] / 255
+        overlay_color["alpha"]
       );
     }
 
     _setColors() {
-      overlay_color["red"] = 255 * this._redSlider._getCurrentValue();
-      overlay_color["green"] = 255 * this._greenSlider._getCurrentValue();
-      overlay_color["blue"] = 255 * this._blueSlider._getCurrentValue();
+      overlay_color["red"] = this._redSlider._getCurrentValue();
+      overlay_color["green"] = this._greenSlider._getCurrentValue();
+      overlay_color["blue"] = this._blueSlider._getCurrentValue();
 
 
       if (settings.get_boolean("cap-alpha")) {
 
-  let alpha = 255 * this._alphaSlider._getCurrentValue();
+  let alpha = this._alphaSlider._getCurrentValue();
 	overlay_color["alpha"] = Math.min(alpha, 240);  // Caps alpha at 240
 }
 else {
 
-       overlay_color["alpha"] = 255 * this._alphaSlider._getCurrentValue();
+       overlay_color["alpha"] = this._alphaSlider._getCurrentValue();
 }
 ;
 
