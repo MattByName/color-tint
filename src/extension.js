@@ -118,14 +118,14 @@ export default class ColorTinter extends Extension {
 
   // Hide Overlay
   hide() {
-      let effect = Clutter.ColorizeEffect;
+      let effect = ColorEffect;
       this._toggleGlobalEffect('ColorTintOverlay', effect, {tint: this.getOverlayColor()}); 
     overlay_active = false;
   }
 
   // Show Overlay
   show() {
-      let effect = Clutter.ColorizeEffect;
+      let effect = ColorEffect;
       this._toggleGlobalEffect('ColorTintOverlay', effect, {tint: this.getOverlayColor()}); 
     overlay_active = true;
   }
