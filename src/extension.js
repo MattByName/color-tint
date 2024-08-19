@@ -25,7 +25,7 @@ import * as PopupMenu from "resource:///org/gnome/shell/ui/popupMenu.js";
 import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 import * as Slider from "resource:///org/gnome/shell/ui/slider.js";
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
-import {ColorEffect} from "./includes/color_effect/color_effect.js"
+import {ColorEffect} from "./includes/color_effect/color_effect.js";
 let overlay_active = false;
 let menu = null;
 let overlay = null;
@@ -36,8 +36,9 @@ let overlay_color = {
   red: 0.20,
   green: 0.20,
   blue: 0.20,
-  alpha: 0.40,
+  alpha: 0.4,
 };
+
 export default class ColorTinter extends Extension {
   constructor(metadata) {
     super(metadata);
@@ -50,6 +51,21 @@ export default class ColorTinter extends Extension {
     this.start_up();
     menu = new MenuButton();
     Main.panel.addToStatusArea("Tint", menu, 0, "right");
+    settings.connect('changed::overlay-color', (settings, key) => {
+      this.updateColor();
+    });
+  }
+    
+
+  updateColor() {
+
+    let c = settings.get_value("overlay-color").deep_unpack();
+    overlay_color['red'] = c[0];
+    overlay_color['green'] = c[1];
+    overlay_color['blue'] = c[2];
+    overlay_color['alpha'] = c[3];
+    if (overlay_active)
+      this.refreshOverlay();
   }
 
   disable() {
@@ -68,69 +84,23 @@ export default class ColorTinter extends Extension {
       Main.uiGroup.add_effect_with_name(name, eff);
     }
   }
-  createOverlay() {
-    /*
-        Set the overlay to 100x the primary monitor's width and height. Set the overlay x and y to 0.
-        This is hacky, but should cover most multi-setups.
-        What should be done, is to iterate over all monitors, and create a seperate overlay for each that fills each
-        according to its dimensions. If anyone wants to refactor this in that way, please do.
-         */
-
-    let monitor = Main.layoutManager.primaryMonitor;
-    overlay = new St.Bin({ reactive: false });
-    overlay.set_size(monitor.width * 100, monitor.height * 100);
-    overlay.opacity = 30;
-    overlay.set_position(0, 0);
-    // Arbitrary z position above everything else
-    overlay.set_z_position(650);
-
-    this.setOverlayColor();
-  }
-
-  
-  // Update color of Overlay
-  setOverlayColor() {
-    var color = new Clutter.Color({
-      red: overlay_color["red"],
-      green: overlay_color["green"],
-      blue: overlay_color["blue"],
-      alpha: overlay_color["alpha"],
-    });
-    overlay.set_background_color(color);
-    this.saveColor();
-    if (overlay_active)
-      this.refreshColor();
-  }
-  refreshColor() {
+  refreshOverlay() {
     this.hide();
     this.show();
-  }
-  getOverlayColor() {
-
-    let color = new Clutter.Color({
-      red: overlay_color["red"],
-      green: overlay_color["green"],
-      blue: overlay_color["blue"],
-      alpha: overlay_color["alpha"],
-    });
-    return color;
   }
   toggleEffect() {
     let effect = ColorEffect;
     this._toggleGlobalEffect('ColorTintOverlay', effect, {
-      red: overlay_color['red'],
-      blue: overlay_color['blue'],
-      green: overlay_color['green'],
-      blend: overlay_color['alpha'],
-	  
-
+      red: overlay_color["red"],
+      green: overlay_color["green"],
+      blue: overlay_color["blue"],
+      blend: overlay_color["alpha"],
     }); 
   }
 
   // Hide Overlay
   hide() {
     this.toggleEffect();
-
     overlay_active = false;
   }
 
@@ -140,54 +110,19 @@ export default class ColorTinter extends Extension {
     overlay_active = true;
   }
 
-  // Load Color
-  loadColor() {
-    // Load last from json
-
-    this._file = Gio.file_new_for_path(`${metadata.path}/settings.json`);
-    if (this._file.query_exists(null)) {
-      var flag;
-      var data;
-      [flag, data] = this._file.load_contents(null);
-
-      if (flag) {
-        const TexDec = new TextDecoder();
-        let prepData =
-          data instanceof Uint8Array ? TexDec.decode(data) : data.toString();
-        overlay_color = JSON.parse(prepData);
-      }
-    }
-  }
-
-  // Save Color
-  saveColor() {
-    this._file = Gio.file_new_for_path(`${metadata.path}/settings.json`);
-    this._file.replace_contents(
-      JSON.stringify(overlay_color),
-      null,
-      false,
-      0,
-      null
-    );
-  }
-
   start_up() {
+    this.updateColor();
     overlay_active = settings.get_boolean("autostart"); 
-    this.loadColor();
-    this.createOverlay();
-     
     if (settings.get_boolean("autostart")) {
-      tinter.show();
+      this.show();
     }
 
   }
   stop_now() {
-    if (overlay_active == true) Main.uiGroup.remove_child(overlay);
-    overlay.destroy();
-    overlay = null;
+    if (overlay_active)
+      this.toggleEffect();
   }
 }
-
 const MenuButton = GObject.registerClass(
   { GTypeName: "MenuButton" },
   class MenuButton extends PanelMenu.Button {
@@ -230,104 +165,18 @@ const MenuButton = GObject.registerClass(
 
       // Other standard menu items
       let offswitch = new PopupMenu.PopupSwitchMenuItem("Tint", overlay_active);
-
-      // Assemble all menu items
-
       // This is a menu separator
       this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
       this.menu.addMenuItem(offswitch);
       this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
-
       offswitch.connect("toggled", (object, value) => {
         // We will just change the text content of the label
         if (value) tinter.show();
         else tinter.hide();
       });
 
-      this._redSlider = new Slider.Slider(0);
-      this._greenSlider = new Slider.Slider(0);
-      this._blueSlider = new Slider.Slider(0);
-      this._alphaSlider = new Slider.Slider(0);
 
-      let _redLabel = new St.Label({ text: "R" });
-      this._redSliderContainer = new PopupMenu.PopupBaseMenuItem({
-        activate: false,
-      });
-      this._redSliderContainer.add_child(_redLabel);
-      this._redSliderContainer.add_child(this._redSlider);
-      this.menu.addMenuItem(this._redSliderContainer);
-
-      let _greenLabel = new St.Label({ text: "G" });
-      this._greenSliderContainer = new PopupMenu.PopupBaseMenuItem({
-        activate: false,
-      });
-      this._greenSliderContainer.add_child(_greenLabel);
-      this._greenSliderContainer.add_child(this._greenSlider);
-      this.menu.addMenuItem(this._greenSliderContainer);
-
-      let _blueLabel = new St.Label({ text: "B" });
-      this._blueSliderContainer = new PopupMenu.PopupBaseMenuItem({
-        activate: false,
-      });
-      this._blueSliderContainer.add_child(_blueLabel);
-      this._blueSliderContainer.add_child(this._blueSlider);
-      this.menu.addMenuItem(this._blueSliderContainer);
-
-      this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
-
-      let _alphaLabel = new St.Label({ text: "Alpha" });
-      this._alphaSliderContainer = new PopupMenu.PopupBaseMenuItem({
-        activate: false,
-      });
-      this._alphaSliderContainer.add_child(_alphaLabel);
-      this._alphaSliderContainer.add_child(this._alphaSlider);
-      this.menu.addMenuItem(this._alphaSliderContainer);
-
-      this._redSlider.connect("notify::value", this._setColors.bind(this));
-      this._blueSlider.connect("notify::value", this._setColors.bind(this));
-      this._greenSlider.connect("notify::value", this._setColors.bind(this));
-      this._alphaSlider.connect("notify::value", this._setColors.bind(this));
-
-      this._getColors();
     }
 
-    _getColors() {
-      this._redSlider._setCurrentValue(
-        this._redSlider,
-        overlay_color["red"]
-      );
-      this._blueSlider._setCurrentValue(
-        this._blueSlider,
-        overlay_color["blue"]
-      );
-      this._greenSlider._setCurrentValue(
-        this._greenSlider,
-        overlay_color["green"]
-      );
-      this._alphaSlider._setCurrentValue(
-        this._alphaSlider,
-        overlay_color["alpha"]
-      );
-    }
-
-    _setColors() {
-      overlay_color["red"] = this._redSlider._getCurrentValue();
-      overlay_color["green"] = this._greenSlider._getCurrentValue();
-      overlay_color["blue"] = this._blueSlider._getCurrentValue();
-
-
-      if (settings.get_boolean("cap-alpha")) {
-
-        let alpha = this._alphaSlider._getCurrentValue();
-        overlay_color["alpha"] = Math.min(alpha, 240);  // Caps alpha at 240
-      }
-      else {
-
-        overlay_color["alpha"] = this._alphaSlider._getCurrentValue();
-      }
-      ;
-
-      tinter.setOverlayColor();
-    }
   }
 );

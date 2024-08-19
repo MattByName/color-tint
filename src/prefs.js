@@ -20,6 +20,7 @@ import Gio from "gi://Gio";
 import Adw from "gi://Adw";
 import Gtk from "gi://Gtk";
 
+import GLib from 'gi://GLib';
 import {
   ExtensionPreferences,
   gettext as _,
@@ -108,8 +109,8 @@ export default class ColorTintPreferences extends ExtensionPreferences {
     }); 
     color_picker_button.connect('notify::rgba', _ => {
       let c = color_picker_button.rgba;
-      let val = new GLib.Variant("(ddd)", [c.red, c.green, c.blue]);
-      window._settings.set_value("tint-color", val);
+      let val = new GLib.Variant("(dddd)", [c.red, c.green, c.blue, c.alpha]);
+      window._settings.set_value("overlay-color", val);
     });
     let c = window._settings.get_value("overlay-color").deep_unpack();
     let rgba = color_picker_button.rgba;
@@ -120,8 +121,8 @@ export default class ColorTintPreferences extends ExtensionPreferences {
     color_picker_button.set_rgba(rgba);
     color_picker_button.connect('notify::rgba', _ => {
       let c = color_picker_button.rgba;
-      let val = new GLib.Variant("(ddd)", [c.red, c.green, c.blue]);
-      window._settings.set_value("tint-color", val);
+      let val = new GLib.Variant("(dddd)", [c.red, c.green, c.blue, c.alpha]);
+      window._settings.set_value("overlay-color", val);
     });
     color_selector_group.add(color_picker_button);
     // Add our page to the window
