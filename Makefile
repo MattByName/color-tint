@@ -10,7 +10,7 @@ OUTPUT_DIR = bin/
 OUTPUT_FNAME = colortint@matt.serverus.co.uk.zip
 INSTALL_DIR = ~/.local/share/gnome-shell/extensions/colortint\@matt.serverus.co.uk
 
-compile:
+compile: lint
 	glib-compile-schemas src/schemas/
 .PHONY:compile
 
@@ -43,4 +43,11 @@ install: build
 test: install
 	./nested-session.sh
 .PHONY:test
+
+lint:
+	eslint --fix src/**.js
+.PHONT:test
+
+
+
 # end

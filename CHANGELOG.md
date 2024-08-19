@@ -2,6 +2,7 @@
 ## Upcoming 
 
 ### Added
+- linting to makefile
 
 ### Changed
 
