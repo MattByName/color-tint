@@ -106,6 +106,24 @@ export default class ColorTintPreferences extends ExtensionPreferences {
     let color_picker_button = new Gtk.ColorDialogButton({
       dialog: color_picker,
     }); 
+    color_picker_button.connect('notify::rgba', _ => {
+      let c = color_picker_button.rgba;
+      let val = new GLib.Variant("(ddd)", [c.red, c.green, c.blue]);
+      window._settings.set_value("tint-color", val);
+    });
+    let c = window._settings.get_value("overlay-color").deep_unpack();
+    let rgba = color_picker_button.rgba;
+    rgba.red = c[0];
+    rgba.green = c[1];
+    rgba.blue = c[2];
+    rgba.alpha = c[3];
+    color_picker_button.set_rgba(rgba);
+    color_picker_button.connect('notify::rgba', _ => {
+      let c = color_picker_button.rgba;
+      let val = new GLib.Variant("(ddd)", [c.red, c.green, c.blue]);
+      window._settings.set_value("tint-color", val);
+    });
+    color_selector_group.add(color_picker_button);
     // Add our page to the window
     window.add(page);
   }
