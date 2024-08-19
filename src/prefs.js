@@ -94,6 +94,18 @@ export default class ColorTintPreferences extends ExtensionPreferences {
     // Add the switch to the row
     row2.add_suffix(toggle2);
     row2.activatable_widget = toggle2;
+      
+    ////////////////////
+    // Color Selector //
+    ////////////////////
+    let color_selector_group = new Adw.PreferencesGroup; 
+    page.add(color_selector_group);
+    let color_picker = new Gtk.ColorDialog({
+      with_alpha: true,}
+    );
+    let color_picker_button = new Gtk.ColorDialogButton({
+      dialog: color_picker,
+    }); 
     // Add our page to the window
     window.add(page);
   }

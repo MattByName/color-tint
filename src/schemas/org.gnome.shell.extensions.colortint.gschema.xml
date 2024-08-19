@@ -35,5 +35,12 @@
       <summary>Cap maximum alpha</summary>
       <description>Whether to cap the alpha/opacity at 240 out of 250 to prevent the overlay becoming opaque</description>
     </key>
+    <key name="overlay-color" type="s">
+      <default>&amp;num;33333399;</default>
+      <summary>Overlay color value</summary>
+      <description>The value of the stored color as a Clutter.Color string</description>
+    </key>
   </schema>
+
 </schemalist>
+

@@ -45,7 +45,7 @@ test: install
 .PHONY:test
 
 lint:
-	eslint --fix src/**.js
+	npx eslint --fix src/**.js
 .PHONT:test
 
 

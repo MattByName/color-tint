@@ -61,13 +61,13 @@ export default class ColorTinter extends Extension {
     tinter = null;
   }
   _toggleGlobalEffect(name, effect, properties = {}) {
-        if (Main.uiGroup.get_effect(name)) {
-            Main.uiGroup.remove_effect_by_name(name);
-        } else {
-            let eff = new effect(properties);
-            Main.uiGroup.add_effect_with_name(name, eff);
-        }
+    if (Main.uiGroup.get_effect(name)) {
+      Main.uiGroup.remove_effect_by_name(name);
+    } else {
+      let eff = new effect(properties);
+      Main.uiGroup.add_effect_with_name(name, eff);
     }
+  }
   createOverlay() {
     /*
         Set the overlay to 100x the primary monitor's width and height. Set the overlay x and y to 0.
@@ -98,14 +98,14 @@ export default class ColorTinter extends Extension {
     });
     overlay.set_background_color(color);
     this.saveColor();
-      if (overlay_active)
-	  this.refreshColor();
-}
-    refreshColor() {
-	this.hide();
-	this.show();
-}
-    getOverlayColor() {
+    if (overlay_active)
+      this.refreshColor();
+  }
+  refreshColor() {
+    this.hide();
+    this.show();
+  }
+  getOverlayColor() {
 
     let color = new Clutter.Color({
       red: overlay_color["red"],
@@ -113,30 +113,30 @@ export default class ColorTinter extends Extension {
       blue: overlay_color["blue"],
       alpha: overlay_color["alpha"],
     });
-	return color;
-}
-    toggleEffect() {
-      let effect = ColorEffect;
-      this._toggleGlobalEffect('ColorTintOverlay', effect, {
-	  red: overlay_color['red'],
-	  blue: overlay_color['blue'],
-	  green: overlay_color['green'],
-	  blend: overlay_color['alpha'],
+    return color;
+  }
+  toggleEffect() {
+    let effect = ColorEffect;
+    this._toggleGlobalEffect('ColorTintOverlay', effect, {
+      red: overlay_color['red'],
+      blue: overlay_color['blue'],
+      green: overlay_color['green'],
+      blend: overlay_color['alpha'],
 	  
 
-}); 
-}
+    }); 
+  }
 
   // Hide Overlay
   hide() {
-      this.toggleEffect();
+    this.toggleEffect();
 
     overlay_active = false;
   }
 
   // Show Overlay
   show() {
-      this.toggleEffect();
+    this.toggleEffect();
     overlay_active = true;
   }
 
@@ -177,11 +177,11 @@ export default class ColorTinter extends Extension {
     this.createOverlay();
      
     if (settings.get_boolean("autostart")) {
-	tinter.show();
+      tinter.show();
     }
 
-}
-   stop_now() {
+  }
+  stop_now() {
     if (overlay_active == true) Main.uiGroup.remove_child(overlay);
     overlay.destroy();
     overlay = null;
@@ -318,14 +318,14 @@ const MenuButton = GObject.registerClass(
 
       if (settings.get_boolean("cap-alpha")) {
 
-  let alpha = this._alphaSlider._getCurrentValue();
-	overlay_color["alpha"] = Math.min(alpha, 240);  // Caps alpha at 240
-}
-else {
+        let alpha = this._alphaSlider._getCurrentValue();
+        overlay_color["alpha"] = Math.min(alpha, 240);  // Caps alpha at 240
+      }
+      else {
 
-       overlay_color["alpha"] = this._alphaSlider._getCurrentValue();
-}
-;
+        overlay_color["alpha"] = this._alphaSlider._getCurrentValue();
+      }
+      ;
 
       tinter.setOverlayColor();
     }
