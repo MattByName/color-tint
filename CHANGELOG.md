@@ -3,7 +3,7 @@
 
 ### Added
 - linting to makefile
-
+- Color Change is now through the preferences pane
 ### Changed
 
 ### Fixed
