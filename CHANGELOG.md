@@ -1,4 +1,33 @@
 # ColorTint Changelog
+## Upcoming 
+
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+### Security
+
+
+## 3.0.1-alpha
+### Added
+- Copyright / license headers
+- NWA License header management config
+
+### Fixed
+- New shader effect with working alpha, taken from [CoverFlowAltTab](https://github.com/dsheeler/CoverflowAltTab/tree/main/src/effects)
+
+## 3.0.0-alpha
+
+### Added
+- Color overlay removed with a shader effect, but transparency not working
+### Removed
+- Old overlay functionality
+
+
 ## 2.3.7 - 2024-08-09
 ### Added
 - Maximum alpha option to prevent making the overlay opaque
