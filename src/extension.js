@@ -20,12 +20,14 @@ import St from "gi://St";
 import Clutter from "gi://Clutter";
 import Gio from "gi://Gio";
 import GObject from "gi://GObject";
-import * as Main from "resource:///org/gnome/shell/ui/main.js";
+
 import * as PopupMenu from "resource:///org/gnome/shell/ui/popupMenu.js";
 import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 import * as Slider from "resource:///org/gnome/shell/ui/slider.js";
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 import {ColorEffect} from "./includes/color_effect/color_effect.js";
+import * as Main from "resource:///org/gnome/shell/ui/main.js";
+
 let overlay_active = false;
 let menu = null;
 let overlay = null;
@@ -71,6 +73,8 @@ export default class ColorTinter extends Extension {
   disable() {
     this.stop_now();
     menu.destroy();
+    AboutDialog.destroy
+    aboutDialog = null;
     menu = null;
     settings = null;
     metadata = null;
@@ -173,10 +177,16 @@ const MenuButton = GObject.registerClass(
         // We will just change the text content of the label
         if (value) tinter.show();
         else tinter.hide();
-      });
+      },);
+      this.menu.addAction(_('Preferences'),
+        () => tinter.openPreferences());
 
-
+	
     }
 
+
+
+
   }
+
 );
