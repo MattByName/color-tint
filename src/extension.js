@@ -1,5 +1,5 @@
 import St from "gi://St";
-import Clutter from "gi://Clutter";
+import Cogl from "gi://Cogl";
 import Gio from "gi://Gio";
 import GObject from "gi://GObject";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
@@ -63,7 +63,7 @@ export default class ColorTinter extends Extension {
 
   // Update color of Overlay
   setOverlayColor() {
-    var color = new Clutter.Color({
+    var color = new Cogl.Color({
       red: overlay_color["red"],
       green: overlay_color["green"],
       blue: overlay_color["blue"],
