@@ -98,7 +98,9 @@ jobs:
               const marker = `shexli-fingerprint:${fingerprint}`;
 
               const existing = await github.rest.search.issuesAndPullRequests({
-                q: `repo:${context.repo.owner}/${context.repo.repo} is:issue is:open in:body "${marker}"`,
+                // Deliberately include closed issues: reopening a previously fixed
+                // finding must not create a second tracking issue.
+                q: `repo:${context.repo.owner}/${context.repo.repo} is:issue in:body "${marker}"`,
               });
               if (existing.data.total_count > 0) {
                 core.info(`Skipping existing finding ${finding.rule_id}.`);
