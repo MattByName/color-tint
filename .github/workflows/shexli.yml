@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - develop
 
 # Creating issues requires explicit write access when repository workflow
 # permissions are otherwise read-only.
