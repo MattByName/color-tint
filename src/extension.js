@@ -100,7 +100,7 @@ export default class ColorTinter extends Extension {
   loadColor() {
     // Load last from json
 
-    this._file = Gio.file_new_for_path(`${metadata.path}/settings.json`);
+    this._file = Gio.File.new_for_path(`${metadata.path}/settings.json`);
     if (this._file.query_exists(null)) {
       var flag;
       var data;
@@ -117,27 +117,26 @@ export default class ColorTinter extends Extension {
 
   // Save Color
   saveColor() {
-    this._file = Gio.file_new_for_path(`${metadata.path}/settings.json`);
+    this._file = Gio.File.new_for_path(`${metadata.path}/settings.json`);
     this._file.replace_contents(
       JSON.stringify(overlay_color),
       null,
       false,
       0,
-      null
+      null,
     );
   }
 
   start_up() {
-    overlay_active = settings.get_boolean("autostart"); 
+    overlay_active = settings.get_boolean("autostart");
     this.loadColor();
     this.createOverlay();
-     
-    if (settings.get_boolean("autostart")) {
-	tinter.show();
-    }
 
-}
-   stop_now() {
+    if (settings.get_boolean("autostart")) {
+      tinter.show();
+    }
+  }
+  stop_now() {
     if (overlay_active == true) Main.uiGroup.remove_child(overlay);
     overlay.destroy();
     overlay = null;
@@ -171,7 +170,7 @@ const MenuButton = GObject.registerClass(
       this.add_child(box);
 
       let popupMenuExpander = new PopupMenu.PopupSubMenuMenuItem(
-        "PopupSubMenuMenuItem"
+        "PopupSubMenuMenuItem",
       );
 
       // This is an example of PopupMenuItem, a menu item. We will use this to add as a submenu
@@ -257,8 +256,7 @@ const MenuButton = GObject.registerClass(
     _sliderSetValue(slider, val) {
       if (typeof slider._setCurrentValue === "function")
         slider._setCurrentValue(slider, val);
-      else
-        slider.value = val;
+      else slider.value = val;
     }
 
     _getColors() {
@@ -275,12 +273,12 @@ const MenuButton = GObject.registerClass(
 
       if (settings.get_boolean("cap-alpha")) {
         let alpha = 255 * this._sliderGetValue(this._alphaSlider);
-        overlay_color["alpha"] = Math.min(alpha, 240);  // Caps alpha at 240
+        overlay_color["alpha"] = Math.min(alpha, 240); // Caps alpha at 240
       } else {
         overlay_color["alpha"] = 255 * this._sliderGetValue(this._alphaSlider);
       }
 
       tinter.setOverlayColor();
     }
-  }
+  },
 );

@@ -14,7 +14,7 @@ compile:
 	glib-compile-schemas src/schemas/
 .PHONY:compile
 
-build:
+build: compile
 # Delete the output dir
 	rm -rf $(OUTPUT_DIR)
 # Set up blank directories
@@ -35,6 +35,7 @@ build:
 install: build
 	rm -rf $(INSTALL_DIR)
 	unzip $(OUTPUT_DIR)$(OUTPUT_FNAME) -d $(INSTALL_DIR)
+	glib-compile-schemas $(INSTALL_DIR)/schemas/
 .PHONY: install
 
 test: install
