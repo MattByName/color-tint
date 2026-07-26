@@ -17,7 +17,7 @@
  */
 
 import St from "gi://St";
-import Clutter from "gi://Clutter";
+import Cogl from "gi://Cogl";
 import Gio from "gi://Gio";
 import GObject from "gi://GObject";
 
@@ -25,9 +25,9 @@ import * as PopupMenu from "resource:///org/gnome/shell/ui/popupMenu.js";
 import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 import * as Slider from "resource:///org/gnome/shell/ui/slider.js";
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
-import {ColorEffect} from "./includes/color_effect/color_effect.js";
-import * as Main from "resource:///org/gnome/shell/ui/main.js";
+import * as Config from "resource:///org/gnome/shell/misc/config.js";
 
+const SHELL_VERSION = parseInt(Config.PACKAGE_VERSION.split(".")[0]);
 let overlay_active = false;
 let menu = null;
 let overlay = null;
@@ -88,18 +88,25 @@ export default class ColorTinter extends Extension {
       Main.uiGroup.add_effect_with_name(name, eff);
     }
   }
-  refreshOverlay() {
-    this.hide();
-    this.show();
-  }
-  toggleEffect() {
-    let effect = ColorEffect;
-    this._toggleGlobalEffect('ColorTintOverlay', effect, {
-      red: overlay_color["red"],
-      green: overlay_color["green"],
-      blue: overlay_color["blue"],
-      blend: overlay_color["alpha"],
-    }); 
+
+  // Update color of Overlay
+  setOverlayColor() {
+    if (SHELL_VERSION >= 50) {
+      let r = Math.round(overlay_color["red"]);
+      let g = Math.round(overlay_color["green"]);
+      let b = Math.round(overlay_color["blue"]);
+      let a = (overlay_color["alpha"] / 255).toFixed(3);
+      overlay.set_style(`background-color: rgba(${r}, ${g}, ${b}, ${a});`);
+    } else {
+      var color = new Cogl.Color({
+        red: overlay_color["red"],
+        green: overlay_color["green"],
+        blue: overlay_color["blue"],
+        alpha: overlay_color["alpha"],
+      });
+      overlay.set_background_color(color);
+    }
+    this.saveColor();
   }
 
   // Hide Overlay
@@ -184,9 +191,41 @@ const MenuButton = GObject.registerClass(
 	
     }
 
+    // GNOME 50 removes private _{get,set}CurrentValue; use `value` property
+    _sliderGetValue(slider) {
+      if (typeof slider._getCurrentValue === "function")
+        return slider._getCurrentValue();
+      return slider.value;
+    }
 
+    _sliderSetValue(slider, val) {
+      if (typeof slider._setCurrentValue === "function")
+        slider._setCurrentValue(slider, val);
+      else
+        slider.value = val;
+    }
 
+    _getColors() {
+      this._sliderSetValue(this._redSlider, overlay_color["red"] / 255);
+      this._sliderSetValue(this._blueSlider, overlay_color["blue"] / 255);
+      this._sliderSetValue(this._greenSlider, overlay_color["green"] / 255);
+      this._sliderSetValue(this._alphaSlider, overlay_color["alpha"] / 255);
+    }
 
+    _setColors() {
+      overlay_color["red"] = 255 * this._sliderGetValue(this._redSlider);
+      overlay_color["green"] = 255 * this._sliderGetValue(this._greenSlider);
+      overlay_color["blue"] = 255 * this._sliderGetValue(this._blueSlider);
+
+      if (settings.get_boolean("cap-alpha")) {
+        let alpha = 255 * this._sliderGetValue(this._alphaSlider);
+        overlay_color["alpha"] = Math.min(alpha, 240);  // Caps alpha at 240
+      } else {
+        overlay_color["alpha"] = 255 * this._sliderGetValue(this._alphaSlider);
+      }
+
+      tinter.setOverlayColor();
+    }
   }
 
 );
