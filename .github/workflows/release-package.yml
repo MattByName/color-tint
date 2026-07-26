@@ -1,0 +1,35 @@
+name: Attach extension package to release
+
+on:
+  release:
+    types:
+      - created
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-attach:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the release tag
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Install extension build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes glib2.0-bin zip
+
+      - name: Build extension package
+        run: make build
+
+      - name: Attach package to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release upload "${{ github.event.release.tag_name }}"
+          "bin/colortint@matt.serverus.co.uk.zip"
+          --clobber
