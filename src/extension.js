@@ -35,9 +35,9 @@ let settings = null;
 let metadata = null;
 let tinter = null;
 let overlay_color = {
-  red: 0.20,
-  green: 0.20,
-  blue: 0.20,
+  red: 0.2,
+  green: 0.2,
+  blue: 0.2,
   alpha: 0.4,
 };
 
@@ -53,27 +53,24 @@ export default class ColorTinter extends Extension {
     this.start_up();
     menu = new MenuButton();
     Main.panel.addToStatusArea("Tint", menu, 0, "right");
-    settings.connect('changed::overlay-color', (settings, key) => {
+    settings.connect("changed::overlay-color", (settings, key) => {
       this.updateColor();
     });
   }
-    
 
   updateColor() {
-
     let c = settings.get_value("overlay-color").deep_unpack();
-    overlay_color['red'] = c[0];
-    overlay_color['green'] = c[1];
-    overlay_color['blue'] = c[2];
-    overlay_color['alpha'] = c[3];
-    if (overlay_active)
-      this.refreshOverlay();
+    overlay_color["red"] = c[0];
+    overlay_color["green"] = c[1];
+    overlay_color["blue"] = c[2];
+    overlay_color["alpha"] = c[3];
+    if (overlay_active) this.refreshOverlay();
   }
 
   disable() {
     this.stop_now();
     menu.destroy();
-    AboutDialog.destroy
+    AboutDialog.destroy;
     aboutDialog = null;
     menu = null;
     settings = null;
@@ -123,15 +120,13 @@ export default class ColorTinter extends Extension {
 
   start_up() {
     this.updateColor();
-    overlay_active = settings.get_boolean("autostart"); 
+    overlay_active = settings.get_boolean("autostart");
     if (settings.get_boolean("autostart")) {
       this.show();
     }
-
   }
   stop_now() {
-    if (overlay_active)
-      this.toggleEffect();
+    if (overlay_active) this.toggleEffect();
   }
 }
 const MenuButton = GObject.registerClass(
@@ -161,7 +156,7 @@ const MenuButton = GObject.registerClass(
       this.add_child(box);
 
       let popupMenuExpander = new PopupMenu.PopupSubMenuMenuItem(
-        "PopupSubMenuMenuItem"
+        "PopupSubMenuMenuItem",
       );
 
       // This is an example of PopupMenuItem, a menu item. We will use this to add as a submenu
@@ -184,11 +179,8 @@ const MenuButton = GObject.registerClass(
         // We will just change the text content of the label
         if (value) tinter.show();
         else tinter.hide();
-      },);
-      this.menu.addAction(_('Preferences'),
-        () => tinter.openPreferences());
-
-	
+      });
+      this.menu.addAction(_("Preferences"), () => tinter.openPreferences());
     }
 
     // GNOME 50 removes private _{get,set}CurrentValue; use `value` property
@@ -201,8 +193,7 @@ const MenuButton = GObject.registerClass(
     _sliderSetValue(slider, val) {
       if (typeof slider._setCurrentValue === "function")
         slider._setCurrentValue(slider, val);
-      else
-        slider.value = val;
+      else slider.value = val;
     }
 
     _getColors() {
@@ -219,13 +210,12 @@ const MenuButton = GObject.registerClass(
 
       if (settings.get_boolean("cap-alpha")) {
         let alpha = 255 * this._sliderGetValue(this._alphaSlider);
-        overlay_color["alpha"] = Math.min(alpha, 240);  // Caps alpha at 240
+        overlay_color["alpha"] = Math.min(alpha, 240); // Caps alpha at 240
       } else {
         overlay_color["alpha"] = 255 * this._sliderGetValue(this._alphaSlider);
       }
 
       tinter.setOverlayColor();
     }
-  }
-
+  },
 );
