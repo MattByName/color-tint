@@ -4,4 +4,4 @@
 export G_MESSAGES_DEBUG=all
 export MUTTER_DEBUG_DUMMY_MODE_SPECS=1366x768
 export SHELL_DEBUG=backtrace-segfaults
-dbus-run-session -- gnome-shell --nested --wayland > nested.log
+dbus-run-session -- gnome-shell --devkit --wayland > nested.log
