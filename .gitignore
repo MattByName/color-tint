@@ -1,8 +1,5 @@
 .idea/
-package-lock.json
-package.json
 node_modules/
-settings.json
 *.zip
 bin/
 tmp/

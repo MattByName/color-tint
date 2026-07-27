@@ -2,6 +2,7 @@ import St from "gi://St";
 import Cogl from "gi://Cogl";
 import Gio from "gi://Gio";
 import GObject from "gi://GObject";
+import GLib from "gi://GLib";
 import * as Main from "resource:///org/gnome/shell/ui/main.js";
 import * as PopupMenu from "resource:///org/gnome/shell/ui/popupMenu.js";
 import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
@@ -98,33 +99,22 @@ export default class ColorTinter extends Extension {
 
   // Load Color
   loadColor() {
-    // Load last from json
-
-    this._file = Gio.File.new_for_path(`${metadata.path}/settings.json`);
-    if (this._file.query_exists(null)) {
-      var flag;
-      var data;
-      [flag, data] = this._file.load_contents(null);
-
-      if (flag) {
-        const TexDec = new TextDecoder();
-        let prepData =
-          data instanceof Uint8Array ? TexDec.decode(data) : data.toString();
-        overlay_color = JSON.parse(prepData);
-      }
-    }
+    let c = settings.get_value("overlay-color").deep_unpack();
+    overlay_color["red"] = c[0] * 255;
+    overlay_color["green"] = c[1] * 255;
+    overlay_color["blue"] = c[2] * 255;
+    overlay_color["alpha"] = c[3] * 255;
   }
 
   // Save Color
   saveColor() {
-    this._file = Gio.File.new_for_path(`${metadata.path}/settings.json`);
-    this._file.replace_contents(
-      JSON.stringify(overlay_color),
-      null,
-      false,
-      0,
-      null,
-    );
+    let new_color = new GLib.Variant("(dddd)", [
+      overlay_color["red"] / 255,
+      overlay_color["green"] / 255,
+      overlay_color["blue"] / 255,
+      overlay_color["alpha"] / 255,
+    ]);
+    settings.set_value("overlay-color", new_color);
   }
 
   start_up() {
