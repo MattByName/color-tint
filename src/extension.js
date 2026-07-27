@@ -236,36 +236,23 @@ const MenuButton = GObject.registerClass(
       this._getColors();
     }
 
-    // GNOME 50 removes private _{get,set}CurrentValue; use `value` property
-    _sliderGetValue(slider) {
-      if (typeof slider._getCurrentValue === "function")
-        return slider._getCurrentValue();
-      return slider.value;
-    }
-
-    _sliderSetValue(slider, val) {
-      if (typeof slider._setCurrentValue === "function")
-        slider._setCurrentValue(slider, val);
-      else slider.value = val;
-    }
-
     _getColors() {
-      this._sliderSetValue(this._redSlider, overlay_color["red"] / 255);
-      this._sliderSetValue(this._blueSlider, overlay_color["blue"] / 255);
-      this._sliderSetValue(this._greenSlider, overlay_color["green"] / 255);
-      this._sliderSetValue(this._alphaSlider, overlay_color["alpha"] / 255);
+      this._redSlider.value = overlay_color["red"] / 255;
+      this._blueSlider.value = overlay_color["blue"] / 255;
+      this._greenSlider.value = overlay_color["green"] / 255;
+      this._alphaSlider.value = overlay_color["alpha"] / 255;
     }
 
     _setColors() {
-      overlay_color["red"] = 255 * this._sliderGetValue(this._redSlider);
-      overlay_color["green"] = 255 * this._sliderGetValue(this._greenSlider);
-      overlay_color["blue"] = 255 * this._sliderGetValue(this._blueSlider);
+      overlay_color["red"] = 255 * this._redSlider.value;
+      overlay_color["green"] = 255 * this._greenSlider.value;
+      overlay_color["blue"] = 255 * this._blueSlider.value;
 
       if (settings.get_boolean("cap-alpha")) {
-        let alpha = 255 * this._sliderGetValue(this._alphaSlider);
+        const alpha = 255 * this._alphaSlider.value;
         overlay_color["alpha"] = Math.min(alpha, 240); // Caps alpha at 240
       } else {
-        overlay_color["alpha"] = 255 * this._sliderGetValue(this._alphaSlider);
+        overlay_color["alpha"] = 255 * this._alphaSlider.value;
       }
 
       tinter.setOverlayColor();
