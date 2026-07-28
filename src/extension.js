@@ -228,12 +228,11 @@ const MenuButton = GObject.registerClass(
       this._alphaSliderContainer.add_child(this._alphaSlider);
       this.menu.addMenuItem(this._alphaSliderContainer);
 
+      this._getColors();
       this._redSlider.connect("notify::value", this._setColors.bind(this));
       this._blueSlider.connect("notify::value", this._setColors.bind(this));
       this._greenSlider.connect("notify::value", this._setColors.bind(this));
       this._alphaSlider.connect("notify::value", this._setColors.bind(this));
-
-      this._getColors();
     }
 
     _getColors() {
