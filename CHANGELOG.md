@@ -1,28 +1,66 @@
 # ColorTint Changelog
-## 2.3.7 - 2024-08-09
+
+## 2.4.1 - 2026-07-28
+
+### Changed
+
+Minor backend changes in response to requests from the GNOME extensions site reviewer
+
+- Color preferences now saved in GNOME settings api, not an ad hoc json file
+- Code tidied up to remove unnecessary abstraction
+- Compiled schemas no longer ship in the binary
+
+## 2.4.0 - 2026-06-08
+
 ### Added
+
+- GNOME 47, 48, 49, 50 support (thanks okias and holysoles)
+
+### Removed
+
+- GNOME 45 and 46 no longer supported in new versions due to breaking changes to adapt to the new api
+
+## 2.3.7 - 2024-08-09
+
+### Added
+
 - Maximum alpha option to prevent making the overlay opaque
+
 ### Fixed
+
 - Removed broken fix from 2.3.6, it didn't work
 - Repaired show overlay on start functionality
+
 ## 2.3.6 - 2024-08-02
+
 ### Fixed
+
 - Corrected issue where overlay was not being drawn over some full screen apps
+
 ## 2.3.5 - 2024-03-27
+
 ### Fixed
+
 - A bug caused by accidentally deleting lines of code has been repaired
+
 ## 2.3.4 - 2024-03-26
 
 ### Added
+
 - GNOME 46 Support
+
 ### Removed
+
 - Clutter.Container usage
+
 ## 2.3.2 - 2023-12-08
 
 ### Added
+
 - GNOME 45 Support
 
 ### Changed
+
 - Imports now use ES modules
 
 ### Removed
