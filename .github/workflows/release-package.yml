@@ -26,10 +26,24 @@ jobs:
       - name: Build extension package
         run: make build
 
-      - name: Attach package to the release
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Shexli
+        run: python -m pip install --disable-pip-version-check -r .github/requirements-ci.txt
+
+      - name: Analyze release package with Shexli
+        run: |
+          shexli bin/colortint@matt.serverus.co.uk.zip --format json > shexli-results.json
+          cat shexli-results.json
+
+      - name: Attach package and analysis report to the release
         env:
           GH_TOKEN: ${{ github.token }}
         run: >-
           gh release upload "${{ github.event.release.tag_name }}"
           "bin/colortint@matt.serverus.co.uk.zip"
+          shexli-results.json
           --clobber

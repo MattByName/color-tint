@@ -1,0 +1,3 @@
+# Analyzer used by the GitHub Actions workflows. Dependabot updates this pin
+# monthly in a reviewable pull request.
+shexli==0.2.1

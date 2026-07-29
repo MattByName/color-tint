@@ -37,9 +37,8 @@ jobs:
           python-version: '3.12'
 
       - name: Install Shexli
-        # Published from https://github.com/NarkAgni/shexli. Pin the release so
-        # a given commit is always checked with the same analyzer rules.
-        run: python -m pip install --disable-pip-version-check 'shexli==0.2.1'
+        # The pinned analyzer version is updated by a reviewable Dependabot PR.
+        run: python -m pip install --disable-pip-version-check -r .github/requirements-ci.txt
 
       - name: Analyze built package with Shexli
         run: |

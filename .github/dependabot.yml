@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /.github
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "ci(deps)"
+    labels:
+      - dependencies
+      - ci
