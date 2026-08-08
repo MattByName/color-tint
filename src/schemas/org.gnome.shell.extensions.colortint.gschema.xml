@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
+  <enum id="org.gnome.shell.extensions.colortint.StartupBehavior">
+    <value value="0" nick="off"/>
+    <value value="1" nick="on"/>
+    <value value="2" nick="restore"/>
+  </enum>
   <schema id="org.gnome.shell.extensions.colortint" path="/org/gnome/shell/extensions/colortint/">
     <!-- See also: https://docs.gtk.org/glib/gvariant-format-strings.html -->
     <key name="monochrome-icon" type="b">
@@ -9,8 +14,18 @@
     </key>
     <key name="autostart" type="b">
       <default>false</default>
-      <summary>Show overlay on start</summary>
-      <description>Whether the overlay should be visible when the extension starts</description>
+      <summary>Show overlay on start (deprecated)</summary>
+      <description>Deprecated: value is migrated to startup-behavior and reset on first run</description>
+    </key>
+    <key name="startup-behavior" enum="org.gnome.shell.extensions.colortint.StartupBehavior">
+      <default>'off'</default>
+      <summary>Overlay on start</summary>
+      <description>Whether the overlay is off, on, or restored to its last state when the extension starts</description>
+    </key>
+    <key name="last-state" type="b">
+      <default>false</default>
+      <summary>Last overlay state</summary>
+      <description>Internal: whether the overlay was on when last toggled</description>
     </key>
     <key name="cap-alpha" type="b">
       <default>true</default>
