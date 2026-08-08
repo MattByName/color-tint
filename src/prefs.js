@@ -6,34 +6,27 @@ import {
   ExtensionPreferences,
   gettext as _,
 } from "resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js";
+import { migrateSettings } from "./migration.js";
 
 export default class ColorTintPreferences extends ExtensionPreferences {
   fillPreferencesWindow(window) {
     window._settings = this.getSettings();
+    migrateSettings(window._settings);
     // Create a preferences page and group
     const page = new Adw.PreferencesPage();
     const group = new Adw.PreferencesGroup();
     page.add(group);
 
-    // Create a new preferences row
-    const row = new Adw.ActionRow({ title: "Overlay active on start" });
-    group.add(row);
-
-    // Create the switch and bind its value to the `autostart` key
-    const toggle = new Gtk.Switch({
-      active: window._settings.get_boolean("autostart"),
-      valign: Gtk.Align.CENTER,
+    // Combo bound to the `startup-behavior` enum; indices match the enum values
+    const row = new Adw.ComboRow({
+      title: "Overlay on start",
+      model: Gtk.StringList.new(["Off", "On", "Restore last state"]),
     });
-    window._settings.bind(
-      "autostart",
-      toggle,
-      "active",
-      Gio.SettingsBindFlags.DEFAULT
+    row.selected = window._settings.get_enum("startup-behavior");
+    row.connect("notify::selected", () =>
+      window._settings.set_enum("startup-behavior", row.selected)
     );
-
-    // Add the switch to the row
-    row.add_suffix(toggle);
-    row.activatable_widget = toggle;
+    group.add(row);
 
     // Create a new preferences row
     const row_alpha_cap = new Adw.ActionRow({ title: "Cap maximum alpha" });

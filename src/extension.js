@@ -9,6 +9,7 @@ import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
 import * as Slider from "resource:///org/gnome/shell/ui/slider.js";
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 import * as Config from "resource:///org/gnome/shell/misc/config.js";
+import { migrateSettings } from "./migration.js";
 
 const SHELL_VERSION = parseInt(Config.PACKAGE_VERSION.split(".")[0]);
 let overlay_active = false;
@@ -31,6 +32,7 @@ export default class ColorTinter extends Extension {
   enable() {
     tinter = this;
     settings = this.getSettings();
+    migrateSettings(settings);
     metadata = this.metadata;
     this.start_up();
     menu = new MenuButton();
@@ -89,12 +91,14 @@ export default class ColorTinter extends Extension {
   hide() {
     overlay_active = false;
     Main.uiGroup.remove_child(overlay);
+    settings.set_boolean("last-state", false);
   }
 
   // Show Overlay
   show() {
     Main.uiGroup.add_child(overlay);
     overlay_active = true;
+    settings.set_boolean("last-state", true);
   }
 
   // Load Color
@@ -118,11 +122,13 @@ export default class ColorTinter extends Extension {
   }
 
   start_up() {
-    overlay_active = settings.get_boolean("autostart");
+    const behavior = settings.get_enum("startup-behavior"); // 0 off, 1 on, 2 restore
+    overlay_active =
+      behavior === 2 ? settings.get_boolean("last-state") : behavior === 1;
     this.loadColor();
     this.createOverlay();
 
-    if (settings.get_boolean("autostart")) {
+    if (overlay_active) {
       tinter.show();
     }
   }
